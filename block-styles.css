@@ -1,0 +1,35 @@
+.is-style-animate-inside-lines .wp-block-gallery figure {
+    overflow: hidden;
+    border-bottom: 0 solid transparent;
+}
+
+.is-style-animate-inside-lines .blocks-gallery-item figure:before,
+.is-style-animate-inside-lines .blocks-gallery-item figure:after {
+    content: '';
+    opacity: 0;
+    z-index: 2;
+    position: absolute;
+    transition: opacity 0.35s, transform 0.45s;
+    top: 15px;
+    right: 15px;
+    bottom: 15px;
+    left: 15px;
+}
+
+.is-style-animate-inside-lines .blocks-gallery-item figure:before {
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    transform: scale(0, 1);
+}
+
+.is-style-animate-inside-lines .blocks-gallery-item figure:after {
+    transform: scale(1, 0);
+    border-right: 1px solid #fff;
+    border-left: 1px solid #fff;
+}
+
+.is-style-animate-inside-lines .blocks-gallery-item figure:hover:before,
+.is-style-animate-inside-lines .blocks-gallery-item figure:hover:after {
+    opacity: 1;
+    transform: scale(1.04);
+}
