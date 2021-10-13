@@ -1,0 +1,45 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+ :root {
+    --line-color: #fff;
+}
+
+$line-color: var(--line-color);
+.is-style-animate-inside-lines {
+    .wp-blocks-gallery-item figure {
+        overflow: hidden;
+        border-bottom: 0 solid transparent;
+    }
+    .blocks-gallery-item figure:before,
+    .blocks-gallery-item figure:after {
+        content: '';
+        opacity: 0;
+        z-index: 2;
+        position: absolute;
+        transition: opacity 0.35s, transform 0.45s;
+        top: 15px;
+        right: 15px;
+        bottom: 15px;
+        left: 15px;
+    }
+    .blocks-gallery-item figure:before {
+        border-top: 1px solid $line-color;
+        border-bottom: 1px solid $line-color;
+        transform: scale(0, 1);
+    }
+    .blocks-gallery-item figure:after {
+        transform: scale(1, 0);
+        border-right: 1px solid $line-color;
+        border-left: 1px solid $line-color;
+    }
+    .blocks-gallery-item figure:hover:before,
+    .blocks-gallery-item figure:hover:after {
+        opacity: 1;
+        transform: scale(1.04);
+    }
+}
