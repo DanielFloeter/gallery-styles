@@ -13,7 +13,7 @@ Additional Styles for the WordPress core/gallery.
 
 == Description ==
 
-Displays a description list or definition list using the `<dl>` element consist of a series of term and description pairs (`<dt>`, `<dd>`) and displays that elements in definition form like a dictionary in the Gutenberg block editor.
+Additional Styles for the WordPress core/gallery.
 
 = Features =
 * Add animated, inside lines

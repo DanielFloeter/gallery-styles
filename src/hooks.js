@@ -3,36 +3,38 @@
  */
 import { __ } from '@wordpress/i18n';
 import {
-    PanelBody,
-    ColorPalette
+    PanelBody
 } from '@wordpress/components';
-import {
-    useState,
-    useEffect
-} from '@wordpress/element';
+const {
+    PanelColorSettings,
+} = wp.blockEditor;
+import { useState } from '@wordpress/element';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
 
-const CreateNewPostLink = () => {
-    const [color, setColor] = useState('#f00');
+const AdditionalColorPicker = (props) => {
+    const { attributes, setAttributes } = props;
+    const { color } = attributes;
+
     const colors = wp.data.select("core/editor").getEditorSettings().colors.filter(
         word => word['origin'] !== 'core'
     );
 
     const OnChangeColor = (color) => {
-        setColor(color);
-
-        // Accessing scss variable "--line-color"
-        // using plain JavaScript
-        const root = document.documentElement;
-        root?.style.setProperty("--line-color", color);
+        setAttributes({ color });
     }
 
     return (
-        <ColorPalette
+        <PanelColorSettings
+            title="Line Color"
             colors={colors}
-            value={color}
-            onChange={OnChangeColor}
+            colorSettings={[
+                {
+                    label: __('Color'),
+                    value: color,
+                    onChange: OnChangeColor,
+                },
+            ]}
         />
     );
 };
@@ -45,19 +47,19 @@ const CreateNewPostLink = () => {
  */
 const queryTopInspectorControls = createHigherOrderComponent(
     (BlockEdit) => (props) => {
-        const { name, isSelected } = props;
-        if (name !== 'core/gallery' || !isSelected) {
+        const { name } = props;
+        if (name !== 'core/gallery') {
             return <BlockEdit key="edit" {...props} />;
         }
 
         return (
             <>
                 <InspectorControls>
-                    <PanelBody title={__('Line color')}>
-                        <CreateNewPostLink {...props} />
-                    </PanelBody>
+                    <AdditionalColorPicker {...props} />
                 </InspectorControls>
-                <BlockEdit key="edit" {...props} />
+                <div style={{ '--line-color': props.attributes.color }}>
+                    <BlockEdit key="edit" {...props} />
+                </div>
             </>
         );
     },

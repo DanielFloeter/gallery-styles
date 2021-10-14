@@ -11,6 +11,22 @@ Version: 1.1.0
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
+ * Write the color and accessing 
+ * css variable "--line-color"
+ */
+function custom_block_wrapper( $block_content, $block ) {
+    if ( $block['blockName'] === 'core/gallery' && isset( $block['attrs']['color'] ) && $block['attrs']['color'] !== '' ) {
+		$content = '<div style="--line-color:' . $block['attrs']['color'] . '">';
+        $content .= $block_content;
+        $content .= '</div>';
+        return $content;
+    }
+    return $block_content;
+}
+ 
+add_filter( 'render_block', 'custom_block_wrapper', 10, 2 );
+
+/**
  * Enqueue Block Styles Javascript
  */
 function custom_gutenberg_scripts() {
