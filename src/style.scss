@@ -10,13 +10,10 @@ div {
 }
 
 $line-color: var(--line-color);
-.is-style-animate-inside-lines {
-    .wp-blocks-gallery-item figure {
-        overflow: hidden;
-        border-bottom: 0 solid transparent;
-    }
-    .blocks-gallery-item figure:before,
-    .blocks-gallery-item figure:after {
+.is-style-animate-inside-lines figure:not(.wp-block-image),
+.is-style-animate-inside-lines figure.wp-block-image>div {
+    &:before,
+    &:after {
         content: '';
         opacity: 0;
         z-index: 2;
@@ -26,20 +23,20 @@ $line-color: var(--line-color);
         right: 15px;
         bottom: 15px;
         left: 15px;
+        box-shadow: unset;
     }
-    .blocks-gallery-item figure:before {
+    &:before {
         border-top: 1px solid $line-color;
         border-bottom: 1px solid $line-color;
         transform: scale(0, 1);
-        box-shadow: unset;
     }
-    .blocks-gallery-item figure:after {
-        transform: scale(1, 0);
+    &:after {
         border-right: 1px solid $line-color;
         border-left: 1px solid $line-color;
+        transform: scale(1, 0);
     }
-    .blocks-gallery-item figure:hover:before,
-    .blocks-gallery-item figure:hover:after {
+    &:hover:before,
+    &:hover:after {
         opacity: 1;
         transform: scale(1.04);
     }
