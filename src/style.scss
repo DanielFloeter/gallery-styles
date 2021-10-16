@@ -10,8 +10,8 @@ div {
 }
 
 $line-color: var(--line-color);
-.is-style-animate-inside-lines figure:not(.wp-block-image),
-.is-style-animate-inside-lines figure.wp-block-image>div {
+.is-style-animate-inside-lines figure:not(.wp-block),
+.is-style-animate-inside-lines figure.wp-block>div {
     &:before,
     &:after {
         content: '';
