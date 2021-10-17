@@ -27,15 +27,16 @@ This section describes how to install the plugin and get it working.
 
 e.g.
 
-1. Upload the plugin files to the `/wp-content/plugins/description-list-block` directory, or install the plugin through the WordPress plugins screen directly.
+1. Upload the plugin files to the `/wp-content/plugins/gallery-styles` directory, or install the plugin through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress 
 
 
 == Frequently Asked Questions ==
 
-= XX? =
+= How can I 'Link to' a Lightbox =
 
-xx
+Search for 'Lightbox' in the [Plugins directory](https://wordpress.org/plugins/search/lightbox/) and install a Lightbox Plugin you want.
+Than go to Gallery settings and choose the option Link To: Media File.
 
 == Screenshots ==
 

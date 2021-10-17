@@ -1,6 +1,6 @@
 {
     "apiVersion": "2",
-    "name": "tiptip/gallery-styles-block",
+    "name": "tiptip/gallery-styles",
     "title": "Gallery Styles",
     "category": "media",
     "description": "Display multiple images in a rich gallery.",

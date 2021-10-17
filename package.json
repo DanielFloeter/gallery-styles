@@ -1,28 +1,28 @@
 {
-	"name": "description-list-block",
-	"version": "1.1.4",
-	"description": "Displays a description list using the dl element consist of a series of term and description pairs (dt, dd).",
-	"author": "kometschuh",
-	"license": "GPL-2.0-or-later",
-	"main": "build/index.js",
-	"scripts": {
-		"build": "wp-scripts build",
-		"format:js": "wp-scripts format-js",
-		"lint:css": "wp-scripts lint-style",
-		"lint:js": "wp-scripts lint-js",
-		"start": "wp-scripts start",
-		"packages-update": "wp-scripts packages-update"
-	},
-	"dependencies": {
-		"@wordpress/block-editor": "^7.0.0",
-		"@wordpress/blocks": "^11.0.0",
-		"@wordpress/i18n": "^4.2.1",
-		"@wordpress/block-library": "^5.00.0",
-		"@wordpress/icons": "^5.00.0",
-		"@wordpress/data": "^6.0.0"
-		
-	},
-	"devDependencies": {
-		"@wordpress/scripts": "^17.1.0"
-	}
+    "name": "gallery-styles",
+    "version": "1.1.0",
+    "description": "Displays a description list using the dl element consist of a series of term and description pairs (dt, dd).",
+    "author": "kometschuh",
+    "license": "GPL-2.0-or-later",
+    "main": "build/index.js",
+    "scripts": {
+        "build": "wp-scripts build",
+        "format:js": "wp-scripts format-js",
+        "lint:css": "wp-scripts lint-style",
+        "lint:js": "wp-scripts lint-js",
+        "start": "wp-scripts start",
+        "packages-update": "wp-scripts packages-update"
+    },
+    "dependencies": {
+        "@wordpress/block-editor": "^7.0.0",
+        "@wordpress/blocks": "^11.0.0",
+        "@wordpress/i18n": "^4.2.1",
+        "@wordpress/block-library": "^5.00.0",
+        "@wordpress/icons": "^5.00.0",
+        "@wordpress/data": "^6.0.0"
+
+    },
+    "devDependencies": {
+        "@wordpress/scripts": "^17.1.0"
+    }
 }
