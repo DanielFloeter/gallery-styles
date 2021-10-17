@@ -1,0 +1,12 @@
+{
+    "apiVersion": 2,
+    "name": "tiptip/gallery-styles-block",
+    "title": "Gallery Styles",
+    "category": "media",
+    "description": "Display multiple images in a rich gallery.",
+    "keywords": ["gallery", "images", "photos"],
+    "textdomain": "gallery-styles-block",
+    "editorScript": "file:./build/index.js",
+    "style": "file:./build/style-index.css",
+    "editorStyle": "file:./build/index.css"
+}

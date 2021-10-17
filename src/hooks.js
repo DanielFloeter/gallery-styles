@@ -2,13 +2,9 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import {
-    PanelBody
-} from '@wordpress/components';
 const {
     PanelColorSettings,
 } = wp.blockEditor;
-import { useState } from '@wordpress/element';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { InspectorControls } from '@wordpress/block-editor';
 
@@ -45,7 +41,7 @@ const AdditionalColorPicker = (props) => {
  * @param {Function} BlockEdit Original component
  * @return {Function}           Wrapped component
  */
-const queryTopInspectorControls = createHigherOrderComponent(
+const editInspectorControls = createHigherOrderComponent(
     (BlockEdit) => (props) => {
         const { name } = props;
         if (name !== 'core/gallery') {
@@ -66,4 +62,4 @@ const queryTopInspectorControls = createHigherOrderComponent(
     'withInspectorControls'
 );
 
-export default queryTopInspectorControls;
+export default editInspectorControls;

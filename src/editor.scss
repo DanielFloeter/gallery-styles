@@ -1,0 +1,42 @@
+/**
+ * The following styles get applied both on the front of your site
+ * and in the editor.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+div {
+    --line-color: #fff;
+}
+
+$line-color: var(--line-color);
+.is-style-animate-inside-lines figure.wp-block>div {
+    &:before,
+    &:after {
+        content: '';
+        opacity: 0;
+        z-index: 2;
+        position: absolute;
+        transition: opacity 0.35s, transform 0.45s;
+        top: 15px;
+        right: 15px;
+        bottom: 15px;
+        left: 15px;
+        box-shadow: unset;
+    }
+    &:before {
+        border-top: 1px solid $line-color;
+        border-bottom: 1px solid $line-color;
+        transform: scale(0, 1);
+    }
+    &:after {
+        border-right: 1px solid $line-color;
+        border-left: 1px solid $line-color;
+        transform: scale(1, 0);
+    }
+    &:hover:before,
+    &:hover:after {
+        opacity: 1;
+        transform: scale(1.04);
+    }
+}
