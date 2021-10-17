@@ -16,7 +16,6 @@ $line-color: var(--line-color);
     &:after {
         content: '';
         opacity: 0;
-        z-index: 2;
         position: absolute;
         transition: opacity 0.35s, transform 0.45s;
         top: 15px;

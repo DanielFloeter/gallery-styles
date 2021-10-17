@@ -35,9 +35,11 @@ add_filter( 'render_block', 'custom_block_wrapper', 10, 2 );
  * Enqueue Block Styles Javascript and Styles Stylesheet for editing
  */
 function custom_gutenberg_scripts() {
-    // wp_enqueue_style( 'editor-style-index-css',
-    //   plugins_url( './build/index.css', __FILE__ ) 
-    // );
+    wp_enqueue_style( 'editor-style-index-css',
+      plugins_url( '/build/index.css', __FILE__ ),
+      array(),
+      filemtime( plugin_dir_path( __FILE__ ) . 'build/index.css' )
+    );
 
     wp_enqueue_script(
       'block-styles-script',
@@ -53,7 +55,9 @@ add_action( 'enqueue_block_editor_assets', 'custom_gutenberg_scripts' );
  */
 function custom_gutenberg_styles() {
 	 wp_enqueue_style( 'style-index-css',
-	 	plugins_url( '/build/style-index.css', __FILE__ ) 
+	 	plugins_url( '/build/style-index.css', __FILE__ ),
+     array(),
+     filemtime( plugin_dir_path( __FILE__ ) . 'build/style-index.css' )
 	);
 }
 add_action( 'enqueue_block_assets', 'custom_gutenberg_styles' );
