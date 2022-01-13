@@ -57,7 +57,3 @@ registerBlockType(name, {
     ...metadata,
     icon,
 });
-
-domReady(function() {
-    unregisterBlockType('tiptip/gallery-styles');
-});
