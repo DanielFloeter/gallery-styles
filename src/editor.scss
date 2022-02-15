@@ -37,6 +37,6 @@ $line-color: var(--line-color);
     &:hover:before,
     &:hover:after {
         opacity: 1;
-        transform: scale(1.04, 1.01);
+        transform: scale(1, 1);
     }
 }
