@@ -11,7 +11,7 @@ div {
 
 $line-color: var(--line-color);
 .is-style-animate-inside-lines figure:not(.wp-block) a,
-.is-style-animate-inside-lines figure.wp-block>div {
+.is-style-animate-inside-lines figure {
     &:before,
     &:after {
         content: '';
