@@ -1,10 +1,10 @@
 === Gallery Styles ===
 Contributors:      kometschuh
 Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
-Tags:              block, gallery
+Tags:              block, gallery, sort
 Requires at least: 5.6
-Tested up to:      5.8
-Stable tag:        1.1.0
+Tested up to:      6.1
+Stable tag:        1.2.0
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,6 +17,7 @@ Additional Styles for the WordPress core/gallery.
 
 = Features =
 * Add animated, inside lines
+* Sort by Exif
 
 = Contribute =
 While using this plugin if you find any bug or any conflict, please submit an issue at [Github](https://github.com/DanielFloeter/description-list-block) (If possible with a pull request).
@@ -44,6 +45,9 @@ Than go to Gallery settings and choose the option Link To: Media File.
 2. 
 
 == Changelog ==
+
+= 1.2.0 - Dezember 02th 2022 =
+* Sort by Exif
 
 = 1.1.0 - October 13th 2021 =
 * Colorpicker

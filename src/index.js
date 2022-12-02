@@ -24,6 +24,14 @@ function addAttributes(settings, name) {
                     type: 'string',
                     default: '#f00',
                 },
+                sortOrder: {
+                    type: Boolean,
+                    default: false
+                },
+                orderBy: {
+                    type: String,
+                    default: 'none'
+                }
             });
         }
     }

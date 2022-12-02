@@ -2,7 +2,9 @@
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createHigherOrderComponent } from '@wordpress/compose';
+import { 
+    createHigherOrderComponent
+} from '@wordpress/compose';
 import {
     store as blockEditorStore,
     InspectorControls 
@@ -11,7 +13,8 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { 
     PanelBody,
-    ToggleControl
+    ToggleControl,
+    SelectControl
 } from '@wordpress/components';
 const {
     PanelColorSettings,
@@ -52,8 +55,8 @@ const AdditionalColorPicker = (props) => {
  */
 const editInspectorControls = createHigherOrderComponent(
     (BlockEdit) => (props) => {
-
-        const { name } = props;
+        const { name, attributes, setAttributes } = props;
+        const { sortOrder, orderBy } = attributes;
         if (name !== 'core/gallery') {
             return <BlockEdit key="edit" {...props} />;
         }
@@ -69,31 +72,39 @@ const editInspectorControls = createHigherOrderComponent(
             [ clientId ]
         );
 
-        const [ hasFixedBackground, setHasFixedBackground ] = useState( false );
-
         const {
             replaceInnerBlocks,
         } = useDispatch( blockEditorStore );
 
-        function updateImages( state ) {
+        function updateImages( sortOrder, orderBy ) {
             replaceInnerBlocks(
                 clientId,
                 innerBlockImages
                     .sort(
                         ( a, b ) =>
-                            //a.attributes.url.split('/').pop() - b.attributes.url.split('/').pop()
-                            //a.attributes.id - b.attributes.id
                         {
-                            //wp.data.select( 'core' ).getMedia( a.attributes.id ).title.rendered;
-                            wp.data.select( 'core' ).getMedia( b.attributes.id ).slug;
-                            wp.data.select( 'core' ).getMedia( b.attributes.id ).date;
-                            wp.data.select( 'core' ).getMedia( b.attributes.id ).modified;
-
-                            if (a.attributes.url.split('/').pop() < b.attributes.url.split('/').pop()) {
-                                return state ? -1 : 1;
-                            }
-                            if (a.attributes.url.split('/').pop() > b.attributes.url.split('/').pop()) {
-                                return state ? 1 : -1;
+                            switch( orderBy ){
+                                case 'none':
+                                    return sortOrder ? a.attributes.id - b.attributes.id : b.attributes.id - a.attributes.id;
+                                case 'name':
+                                    var slugA = wp.data.select( 'core' ).getMedia( a.attributes.id ).slug;
+                                    var slugB = wp.data.select( 'core' ).getMedia( b.attributes.id ).slug;
+                                    if ( slugA < slugB ) {
+                                        return sortOrder ? 1 : -1;
+                                    }
+                                    if ( slugA > slugB ) {
+                                        return sortOrder ? -1 : 1;
+                                    }
+                                case 'date':
+                                    const dateA = new Date( wp.data.select( 'core' ).getMedia( a.attributes.id ).date );
+                                    const dateB = new Date( wp.data.select( 'core' ).getMedia( b.attributes.id ).date );
+                                    return sortOrder ? dateA - dateB : dateB - dateA;
+                                case 'modified':
+                                    const modifiedA = new Date( wp.data.select( 'core' ).getMedia( a.attributes.id ).modified );
+                                    const modifiedB = new Date( wp.data.select( 'core' ).getMedia( b.attributes.id ).modified );
+                                    return sortOrder ? modifiedA - modifiedB : modifiedB - modifiedA;
+                                case 'random':
+                                    return Math.random() - 0.5;
                             }
 
                             // names must be equal
@@ -101,20 +112,36 @@ const editInspectorControls = createHigherOrderComponent(
                         }
                     )
             );
-            return ! state;
+            
+            setAttributes(
+                {
+                    orderBy,
+                    sortOrder
+                });
         }
 
         return (
             <>
                 <InspectorControls>
                     <AdditionalColorPicker {...props} />
-                    <PanelBody title={ __( 'Sort' ) }>
-                    <ToggleControl
-                        label = "Name"
-                        checked={ hasFixedBackground }
-                        onChange={ () => {
-                            setHasFixedBackground( updateImages );
-                        } }
+                    <PanelBody title={ __( 'Sort Exif' ) }>
+                        <SelectControl
+                            label="Order by"
+                            value={ orderBy }
+                            options={ [
+                                { label: 'none', value: 'none' },
+                                { label: 'Name', value: 'name' },
+                                { label: 'Date', value: 'date' },
+                                { label: 'Modified', value: 'modified' },
+                                { label: 'Random', value: 'random' },
+                            ] }
+                            onChange={ ( orderBy ) =>  updateImages( sortOrder, orderBy ) }
+                            __nextHasNoMarginBottom
+                        />
+                        <ToggleControl
+                            label = "Sort order (asc)"
+                            checked={ sortOrder }
+                            onChange={ ( sortOrder) => updateImages( sortOrder, orderBy ) }
                         />
                     </PanelBody>
                 </InspectorControls>
