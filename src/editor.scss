@@ -5,11 +5,8 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-div {
-    --line-color: #fff;
-}
-
 $line-color: var(--line-color);
+
 .is-style-animate-inside-lines figure.wp-block>div {
     &:before,
     &:after {

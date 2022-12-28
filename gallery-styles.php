@@ -1,9 +1,9 @@
 <?php
 /*
  * Plugin Name: Gallery Styles
- * Plugin URI:  https://tiptoppress.com
+ * Plugin URI:  https://github.com/DanielFloeter/gallery-styles
  * Description: Additional Styles for the WordPress core/gallery
- * Version:     1.1.0
+ * Version:     1.2.0
  * Author:      Daniel Flöter
  * Author URI:  https://tiptoppress.com
  * License:     GPL-2.0-or-later
@@ -11,6 +11,8 @@
  * Text Domain: gallery-styles-block
  *
  */
+
+namespace galleryStyleBlock;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -28,7 +30,7 @@ function custom_block_wrapper( $block_content, $block ) {
     return $block_content;
 }
  
-add_filter( 'render_block', 'custom_block_wrapper', 10, 2 );
+add_filter( 'render_block', __NAMESPACE__ . '\custom_block_wrapper', 10, 2 );
 
 /**
  * Enqueue Block Styles Javascript and Styles Stylesheet for editing
@@ -48,7 +50,7 @@ function custom_gutenberg_scripts() {
       filemtime( plugin_dir_path( __FILE__ ) . './build/index.js' )
     );
 }
-add_action( 'enqueue_block_editor_assets', 'custom_gutenberg_scripts' );
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\custom_gutenberg_scripts' );
 
 /**
  * Enqueue Block Styles Stylesheet for editor and front-end
@@ -62,7 +64,7 @@ function custom_gutenberg_styles() {
   );
   
 }
-add_action( 'enqueue_block_assets', 'custom_gutenberg_styles' );
+add_action( 'enqueue_block_assets', __NAMESPACE__ . '\custom_gutenberg_styles' );
 
 
 

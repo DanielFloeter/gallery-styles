@@ -1,7 +1,7 @@
 {
     "name": "gallery-styles",
     "version": "1.1.0",
-    "description": "Displays a description list using the dl element consist of a series of term and description pairs (dt, dd).",
+    "description": "Additional Styles for the WordPress core/gallery.",
     "author": "kometschuh",
     "license": "GPL-2.0-or-later",
     "main": "build/index.js",
