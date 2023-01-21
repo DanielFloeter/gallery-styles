@@ -44,6 +44,8 @@ $line-color: var(--line-color, #fff);
 
 .is-style-cross figure {
 
+    overflow: hidden;
+
     &:before,
     &:after {
         content: '';
@@ -55,18 +57,25 @@ $line-color: var(--line-color, #fff);
         background: $line-color;
         transition: opacity 0.35s, transform 0.35s;
         transform: translate3d(-50%, -50%, 0);
+        z-index: 1;
+    }
+
+    img {
+        transition: opacity 0.35s, transform 0.35s;
+        transform: scale(1.15);
     }
 
     &:hover {
         &:before {
-            opacity: 0.5;
             transform: translate3d(-50%, -50%, 0) rotate(45deg);
         }
 
         &:after {
-            opacity: 0.5;
             transform: translate3d(-50%, -50%, 0) rotate(-45deg);
         }
-
+        img {
+            opacity: 0.7;
+            transform: scale(1);
+        }
     }
 }
