@@ -20,7 +20,7 @@ Additional Styles for the WordPress core/gallery.
 * Sort by Exif
 
 = Contribute =
-While using this plugin if you find any bug or any conflict, please submit an issue at [Github](https://github.com/DanielFloeter/description-list-block) (If possible with a pull request).
+While using this plugin if you find any bug or any conflict, please submit an issue at [Github](https://github.com/DanielFloeter/gallery-styles) (If possible with a pull request).
 
 == Installation ==
 
@@ -41,8 +41,8 @@ Than go to Gallery settings and choose the option Link To: Media File.
 
 == Screenshots ==
 
-1. 
-2. 
+1. Animated, inside lines
+2. Option sort by Exif data
 
 == Changelog ==
 

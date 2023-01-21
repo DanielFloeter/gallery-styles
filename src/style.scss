@@ -5,10 +5,11 @@
  * Replace them with your own styles or remove the file completely.
  */
 
-$line-color: var(--line-color);
+$line-color: var(--line-color, #fff);
 
 .is-style-animate-inside-lines figure:not(.wp-block) a,
-.is-style-animate-inside-lines figure:not(.wp-block)  {
+.is-style-animate-inside-lines figure:not(.wp-block) {
+
     &:before,
     &:after {
         content: '';
@@ -21,19 +22,51 @@ $line-color: var(--line-color);
         left: 15px;
         box-shadow: unset;
     }
+
     &:before {
         border-top: 1px solid $line-color;
         border-bottom: 1px solid $line-color;
         transform: scale(0, 1);
     }
+
     &:after {
         border-right: 1px solid $line-color;
         border-left: 1px solid $line-color;
         transform: scale(1, 0);
     }
+
     &:hover:before,
     &:hover:after {
         opacity: 1;
         transform: scale(1, 1);
+    }
+}
+
+.is-style-cross figure {
+
+    &:before,
+    &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        height: 1px;
+        background: $line-color;
+        transition: opacity 0.35s, transform 0.35s;
+        transform: translate3d(-50%, -50%, 0);
+    }
+
+    &:hover {
+        &:before {
+            opacity: 0.5;
+            transform: translate3d(-50%, -50%, 0) rotate(45deg);
+        }
+
+        &:after {
+            opacity: 0.5;
+            transform: translate3d(-50%, -50%, 0) rotate(-45deg);
+        }
+
     }
 }

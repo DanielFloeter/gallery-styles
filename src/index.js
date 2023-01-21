@@ -22,7 +22,7 @@ function addAttributes(settings, name) {
             settings.attributes = Object.assign(settings.attributes, {
                 color: {
                     type: 'string',
-                    default: '#f00',
+                    default: '#fff',
                 },
                 sortOrder: {
                     type: Boolean,
@@ -40,7 +40,6 @@ function addAttributes(settings, name) {
             icon
         });
     }
-
     return settings;
 }
 
@@ -56,12 +55,19 @@ addFilter(
     editInspectorControls
 );
 
-wp.blocks.registerBlockStyle('core/gallery', {
-    name: 'animate-inside-lines',
-    label: 'Animate inside lines'
+[
+    { name: 'animate-inside-lines', label: 'Animate inside lines' },
+    { name: 'cross', label: 'Cross' },
+].forEach(element => {
+    wp.blocks.registerBlockStyle(
+        'core/gallery',
+        element
+    );
 });
 
-registerBlockType(name, {
+registerBlockType(
+    name, {
     ...metadata,
     icon,
-});
+}
+);
