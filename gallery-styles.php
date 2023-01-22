@@ -21,8 +21,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * css variable "--line-color"
  */
 function custom_block_wrapper( $block_content, $block ) {
-    if ( $block['blockName'] === 'core/gallery' && isset( $block['attrs']['color'] ) && $block['attrs']['color'] !== '' ) {
-		$content = '<div style="--line-color:' . $block['attrs']['color'] . '">';
+    if ( $block['blockName'] === 'core/gallery' ) {
+
+        $line_color_styles = (isset( $block['attrs']['lineColor'] ) && $block['attrs']['lineColor'] !== '') ? ' --line-color:' . $block['attrs']['lineColor'] : '';
+        $background_styles = (isset( $block['attrs']['background'] ) && $block['attrs']['background'] !== '') ? ' --line-color:' . $block['attrs']['background'] : '';
+
+        $content = '<div style="' . $line_color_styles . $background_styles . '">';
         $content .= $block_content;
         $content .= '</div>';
         return $content;

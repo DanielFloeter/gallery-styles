@@ -20,7 +20,11 @@ function addAttributes(settings, name) {
     if (typeof settings.attributes !== 'undefined') {
         if (name == 'core/gallery') {
             settings.attributes = Object.assign(settings.attributes, {
-                color: {
+                lineColor: {
+                    type: 'string',
+                    default: '#fff',
+                },
+                background: {
                     type: 'string',
                     default: '#fff',
                 },
