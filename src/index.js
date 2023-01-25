@@ -24,6 +24,10 @@ function addAttributes(settings, name) {
                     type: 'string',
                     default: '#fff',
                 },
+                foreground: {
+                    type: 'string',
+                    default: '#fff',
+                },
                 background: {
                     type: 'string',
                     default: '#fff',

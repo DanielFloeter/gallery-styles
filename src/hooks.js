@@ -36,10 +36,39 @@ const ColorPickerLineColor = (props) => {
         <PanelColorSettings
             title="Line Color"
             colors={colors}
+            enableAlpha
             colorSettings={[
                 {
                     label: __('Color'),
                     value: lineColor,
+                    onChange: OnChangeColor,
+                },
+            ]}
+        />
+    );
+};
+
+const ColorPickerForeground = (props) => {
+    const { attributes, setAttributes } = props;
+    const { foreground } = attributes;
+
+    const colors = wp.data.select("core/editor").getEditorSettings().colors.filter(
+        word => word['origin'] !== 'core'
+    );
+
+    const OnChangeColor = (foreground) => {
+        setAttributes({ foreground });
+    }
+
+    return (
+        <PanelColorSettings
+            title="Foreground"
+            colors={colors}
+            enableAlpha
+            colorSettings={[
+                {
+                    label: __('Color'),
+                    value: foreground,
                     onChange: OnChangeColor,
                 },
             ]}
@@ -63,6 +92,7 @@ const ColorPickerBackground = (props) => {
         <PanelColorSettings
             title="Background"
             colors={colors}
+            enableAlpha
             colorSettings={[
                 {
                     label: __('Color'),
@@ -150,6 +180,7 @@ const editInspectorControls = createHigherOrderComponent(
             <>
                 <InspectorControls>
                     <ColorPickerLineColor {...props} />
+                    <ColorPickerForeground {...props} />
                     <ColorPickerBackground {...props} />
                     <PanelBody title={__('Sort Exif')}>
                         <SelectControl
@@ -175,6 +206,7 @@ const editInspectorControls = createHigherOrderComponent(
                 <div style={
                     {
                         '--line-color': props.attributes.lineColor,
+                        '--foreground': props.attributes.foreground,
                         '--background': props.attributes.background
                     }}>
                     <BlockEdit key="edit" {...props} />

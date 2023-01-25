@@ -24,9 +24,10 @@ function custom_block_wrapper( $block_content, $block ) {
     if ( $block['blockName'] === 'core/gallery' ) {
 
         $line_color_styles = (isset( $block['attrs']['lineColor'] ) && $block['attrs']['lineColor'] !== '') ? '--line-color:' . $block['attrs']['lineColor'] : '';
+        $foreground_styles = (isset( $block['attrs']['foreground'] ) && $block['attrs']['foreground'] !== '') ? '--foreground:' . $block['attrs']['foreground'] : '';
         $background_styles = (isset( $block['attrs']['background'] ) && $block['attrs']['background'] !== '') ? '--background:' . $block['attrs']['background'] : '';
 
-        $content = '<div style="' . $line_color_styles . '; ' . $background_styles . '">';
+        $content = '<div style="' . $line_color_styles . '; ' . $foreground_styles . '; ' . $background_styles . '">';
         $content .= $block_content;
         $content .= '</div>';
         return $content;
