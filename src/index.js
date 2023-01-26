@@ -32,6 +32,10 @@ function addAttributes(settings, name) {
                     type: 'string',
                     default: '#fff',
                 },
+                blendMode: {
+                    type: String,
+                    default: 'multiply',
+                },
                 sortOrder: {
                     type: Boolean,
                     default: false

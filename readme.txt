@@ -4,7 +4,7 @@ Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              block, gallery, sort
 Requires at least: 5.6
 Tested up to:      6.1
-Stable tag:        1.2.1
+Stable tag:        1.2.2
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -18,6 +18,8 @@ Additional Styles for the WordPress core/gallery.
 = Features =
 * Add animated, inside lines
 * Add Cross hover
+* Foreground, background and line colorpicker
+* Filter, duotone, multiply, luminosity
 * Sort by Exif
 
 = Contribute =
@@ -47,6 +49,9 @@ Than go to Gallery settings and choose the option Link To: Media File.
 3. Option sort by Exif data
 
 == Changelog ==
+
+= 1.2.2 - January 26th 2023 =
+* Filter
 
 = 1.2.1 - January 21th 2023 =
 * Cross hover

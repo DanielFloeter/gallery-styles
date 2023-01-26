@@ -8,8 +8,12 @@
  $line-color: var(--line-color, #fff);
  $foreground: var(--foreground, #ffffff00);
  $background: var(--background, #ffffff00);
+ $blend-mode: var(--blend-mode, 'multiply');
 
 .is-style-animate-inside-lines figure.wp-block>div {
+
+    background: $foreground;
+    transition: background 0.35s;
 
     &:before,
     &:after {
@@ -17,12 +21,13 @@
         opacity: 0;
         z-index: 2;
         position: absolute;
-        transition: opacity 0.35s, transform 0.45s;
+        transition: transform 0.45s;
         top: 15px;
         right: 15px;
         bottom: 15px;
         left: 15px;
         box-shadow: unset;
+        z-index: 1;
     }
 
     &:before {
@@ -41,6 +46,15 @@
     &:hover:after {
         opacity: 1;
         transform: scale(1, 1);
+    }
+
+    img {
+        mix-blend-mode: $blend-mode;
+    }
+
+    &:hover {
+
+        background: $background;
     }
 }
 
@@ -65,9 +79,9 @@
     }
 
     img {
-        transition: opacity 0.35s, transform 0.35s;
+        transition: transform 0.35s;
         transform: scale(1.15);
-        mix-blend-mode: multiply;
+        mix-blend-mode: $blend-mode;
     }
 
     &:hover {

@@ -113,7 +113,7 @@ const ColorPickerBackground = (props) => {
 const editInspectorControls = createHigherOrderComponent(
     (BlockEdit) => (props) => {
         const { name, attributes, setAttributes } = props;
-        const { sortOrder, orderBy } = attributes;
+        const { sortOrder, orderBy, blendMode } = attributes;
         if (name !== 'core/gallery') {
             return <BlockEdit key="edit" {...props} />;
         }
@@ -132,6 +132,14 @@ const editInspectorControls = createHigherOrderComponent(
         const {
             replaceInnerBlocks,
         } = useDispatch(blockEditorStore);
+
+        function updateBlendMode(blendMode) {
+
+            setAttributes(
+                {
+                    blendMode
+                });
+        }
 
         function updateImages(sortOrder, orderBy) {
             replaceInnerBlocks(
@@ -182,6 +190,18 @@ const editInspectorControls = createHigherOrderComponent(
                     <ColorPickerLineColor {...props} />
                     <ColorPickerForeground {...props} />
                     <ColorPickerBackground {...props} />
+                    <PanelBody title={__('Effect')}>
+                        <SelectControl
+                            label="Blend mode"
+                            value={blendMode}
+                            options={[
+                                { label: 'Multiply', value: 'multiply' },
+                                { label: 'Luminosity', value: 'luminosity' },
+                            ]}
+                            onChange={(blendMode) => updateBlendMode(blendMode)}
+                            __nextHasNoMarginBottom
+                        />
+                    </PanelBody>
                     <PanelBody title={__('Sort Exif')}>
                         <SelectControl
                             label="Order by"
@@ -207,7 +227,8 @@ const editInspectorControls = createHigherOrderComponent(
                     {
                         '--line-color': props.attributes.lineColor,
                         '--foreground': props.attributes.foreground,
-                        '--background': props.attributes.background
+                        '--background': props.attributes.background,
+                        '--blend-mode': props.attributes.blendMode
                     }}>
                     <BlockEdit key="edit" {...props} />
                 </div>
