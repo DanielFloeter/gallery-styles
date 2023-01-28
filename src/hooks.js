@@ -12,6 +12,7 @@ import {
 import { useSelect, useDispatch } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import {
+    FontSizePicker,
     PanelBody,
     ToggleControl,
     SelectControl
@@ -34,7 +35,7 @@ const ColorPickerLineColor = (props) => {
 
     return (
         <PanelColorSettings
-            title="Line Color"
+            title="Line- and text color"
             colors={colors}
             enableAlpha
             colorSettings={[
@@ -62,7 +63,7 @@ const ColorPickerForeground = (props) => {
 
     return (
         <PanelColorSettings
-            title="Foreground"
+            title="Image foreground overlay"
             colors={colors}
             enableAlpha
             colorSettings={[
@@ -90,7 +91,7 @@ const ColorPickerBackground = (props) => {
 
     return (
         <PanelColorSettings
-            title="Background"
+            title="Image background overlay"
             colors={colors}
             enableAlpha
             colorSettings={[
@@ -113,7 +114,7 @@ const ColorPickerBackground = (props) => {
 const editInspectorControls = createHigherOrderComponent(
     (BlockEdit) => (props) => {
         const { name, attributes, setAttributes } = props;
-        const { sortOrder, orderBy, blendMode } = attributes;
+        const { sortOrder, orderBy, blendMode, textBlendMode, fontSize } = attributes;
         if (name !== 'core/gallery') {
             return <BlockEdit key="edit" {...props} />;
         }
@@ -138,6 +139,26 @@ const editInspectorControls = createHigherOrderComponent(
             setAttributes(
                 {
                     blendMode
+                });
+        }
+
+        function updateTextBlendMode(textBlendMode) {
+
+            setAttributes(
+                {
+                    textBlendMode
+                });
+        }
+
+        const fontSizes = wp.data.select("core/editor").getEditorSettings().fontSizes.filter(
+            word => word['origin'] !== 'core'
+        );
+
+        function updateFontSize(fontSize) {
+
+            setAttributes(
+                {
+                    fontSize
                 });
         }
 
@@ -188,11 +209,25 @@ const editInspectorControls = createHigherOrderComponent(
             <>
                 <InspectorControls>
                     <ColorPickerLineColor {...props} />
+                    <PanelBody>
+                        <ToggleControl
+                            label="Use line- and text blend mode"
+                            checked={textBlendMode}
+                            onChange={(textBlendMode) => updateTextBlendMode(textBlendMode)}
+                            />
+                    </PanelBody>
+                    <PanelBody>
+                        <FontSizePicker
+                            fontSizes={fontSizes}
+                            value={ fontSize }
+                            onChange={(fontSize=>updateFontSize(fontSize))}
+                            />
+                    </PanelBody>
                     <ColorPickerForeground {...props} />
                     <ColorPickerBackground {...props} />
-                    <PanelBody title={__('Effect')}>
+                    <PanelBody>
                         <SelectControl
-                            label="Blend mode"
+                            label="Image blend mode"
                             value={blendMode}
                             options={[
                                 { label: 'Multiply', value: 'multiply' },
@@ -228,7 +263,9 @@ const editInspectorControls = createHigherOrderComponent(
                         '--line-color': props.attributes.lineColor,
                         '--foreground': props.attributes.foreground,
                         '--background': props.attributes.background,
-                        '--blend-mode': props.attributes.blendMode
+                        '--blend-mode': props.attributes.blendMode,
+                        '--text-blend-mode': props.attributes.textBlendMode ? "color-dodge" : "normal",
+                        '--font-size': props.attributes.fontSize,
                     }}>
                     <BlockEdit key="edit" {...props} />
                 </div>

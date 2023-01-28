@@ -3,7 +3,7 @@
  * Plugin Name: Gallery Styles
  * Plugin URI:  https://github.com/DanielFloeter/gallery-styles
  * Description: Additional Styles for the WordPress core/gallery
- * Version:     1.2.2
+ * Version:     1.2.3
  * Author:      Daniel Flöter
  * Author URI:  https://tiptoppress.com
  * License:     GPL-2.0-or-later
@@ -27,8 +27,10 @@ function custom_block_wrapper( $block_content, $block ) {
         $foreground_styles = (isset( $block['attrs']['foreground'] ) && $block['attrs']['foreground'] !== '') ? '--foreground:' . $block['attrs']['foreground'] : '';
         $background_styles = (isset( $block['attrs']['background'] ) && $block['attrs']['background'] !== '') ? '--background:' . $block['attrs']['background'] : '';
         $blend_mode_styles = (isset( $block['attrs']['blendMode'] ) && $block['attrs']['blendMode'] !== '') ? '--blend-mode:' . $block['attrs']['blendMode'] : '';
+        $text_blend_mode_styles = (isset( $block['attrs']['textBlendMode'] ) && $block['attrs']['textBlendMode'] !== '') ? '--text-blend-mode:color-dodge' : '--text-blend-mode:normal';
+        $font_size = (isset( $block['attrs']['fontSize'] ) && $block['attrs']['fontSize'] !== '') ? '--font-size:' . $block['attrs']['fontSize'] : '';
 
-        $content = '<div style="' . $line_color_styles . '; ' . $foreground_styles . '; ' . $background_styles . '; ' . $blend_mode_styles . '">';
+        $content = '<div style="' . $line_color_styles . '; ' . $foreground_styles . '; ' . $background_styles . '; ' . $blend_mode_styles . '; ' . $text_blend_mode_styles . '; ' . $font_size . '">';
         $content .= $block_content;
         $content .= '</div>';
         return $content;
@@ -43,11 +45,11 @@ add_filter( 'render_block', __NAMESPACE__ . '\custom_block_wrapper', 10, 2 );
  */
 function custom_gutenberg_scripts() {
 
-    wp_enqueue_style( 'editor-style-index-css',
-      plugins_url( '/build/index.css', __FILE__ ),
-      array(),
-      filemtime( plugin_dir_path( __FILE__ ) . 'build/index.css' )
-    );
+    // wp_enqueue_style( 'editor-style-index-css',
+    //   plugins_url( '/build/index.css', __FILE__ ),
+    //   array(),
+    //   filemtime( plugin_dir_path( __FILE__ ) . 'build/index.css' )
+    // );
 
     wp_enqueue_script(
       'block-styles-script',

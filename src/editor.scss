@@ -56,6 +56,15 @@
 
         background: $background;
     }
+
+    figcaption {
+        bottom: unset;
+        background: unset;
+        font-size: 44px;
+        line-height: 1;
+        max-height: unset;
+        margin-top: 0;
+    }
 }
 
 .is-style-cross figure {

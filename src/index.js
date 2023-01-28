@@ -36,6 +36,14 @@ function addAttributes(settings, name) {
                     type: String,
                     default: 'multiply',
                 },
+                textBlendMode: {
+                    type: Boolean,
+                    default: false,
+                },
+                fontSize: {
+                    type: String,
+                    default: '1.75rem'
+                },
                 sortOrder: {
                     type: Boolean,
                     default: false

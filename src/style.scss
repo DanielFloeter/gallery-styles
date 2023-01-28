@@ -9,9 +9,11 @@ $line-color: var(--line-color, #fff);
 $foreground: var(--foreground, #ffffff00);
 $background: var(--background, #ffffff00);
 $blend-mode: var(--blend-mode, 'multiply');
+$text-blend-mode: var(--text-blend-mode, 'normal');
+$font-size: var(--font-size, '1.75rem');
 
-.is-style-animate-inside-lines figure:not(.wp-block) a,
-.is-style-animate-inside-lines figure:not(.wp-block) {
+.is-style-animate-inside-lines.wp-block-gallery.has-nested-images figure a,
+.is-style-animate-inside-lines.wp-block-gallery.has-nested-images figure {
 
     background: $foreground;
     transition: background 0.35s;
@@ -28,6 +30,7 @@ $blend-mode: var(--blend-mode, 'multiply');
         left: 15px;
         box-shadow: unset;
         z-index: 1;
+        mix-blend-mode: $text-blend-mode;
     }
 
     &:before {
@@ -56,9 +59,26 @@ $blend-mode: var(--blend-mode, 'multiply');
 
         background: $background;
     }
+
+    figcaption {
+        bottom: unset;
+        background: unset;
+        font-size: $font-size;
+        line-height: 1;
+        max-height: unset;
+        margin-top: 0;
+        color: $line-color;
+        mix-blend-mode: $text-blend-mode;
+        transform: translate3d(0,-20px,0);
+        transition: transform 0.35s;
+    }
+
+    &:hover figcaption{
+        transform: translate3d(0,0,0);
+    } 
 }
 
-.is-style-cross figure {
+.is-style-cross.wp-block-gallery.has-nested-images figure {
 
     overflow: hidden;
     background: $foreground;
@@ -76,6 +96,7 @@ $blend-mode: var(--blend-mode, 'multiply');
         transition: transform 0.35s;
         transform: translate3d(-50%, -50%, 0);
         z-index: 1;
+        mix-blend-mode: $text-blend-mode;
     }
 
     img {
@@ -100,4 +121,21 @@ $blend-mode: var(--blend-mode, 'multiply');
             transform: scale(1);
         }
     }
+
+    figcaption {
+        bottom: unset;
+        background: unset;
+        font-size: $font-size;
+        line-height: 1;
+        max-height: unset;
+        margin-top: 0;
+        color: $line-color;
+        mix-blend-mode: $text-blend-mode;
+        transform: translate3d(0,-50px,0);
+        transition: transform 0.35s;
+    }
+
+    &:hover figcaption{
+        transform: translate3d(0,-30px,0);
+    } 
 }
