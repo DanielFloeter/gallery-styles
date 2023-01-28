@@ -46,7 +46,7 @@ Than go to Gallery settings and choose the option Link To: Media File.
 == Screenshots ==
 
 1. Animated, inside lines
-2. Cross hover
+2. Blend mode
 3. Option sort by Exif data
 
 == Changelog ==
