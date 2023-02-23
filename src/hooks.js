@@ -9,14 +9,19 @@ import {
     store as blockEditorStore,
     InspectorControls
 } from '@wordpress/block-editor';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { useState } from '@wordpress/element';
+import {
+    useSelect,
+    useDispatch
+} from '@wordpress/data';
 import {
     FontSizePicker,
     PanelBody,
     ToggleControl,
     SelectControl
 } from '@wordpress/components';
+import {
+    plugins
+} from '@wordpress/icons';
 const {
     PanelColorSettings,
 } = wp.blockEditor;
@@ -63,7 +68,7 @@ const ColorPickerForeground = (props) => {
 
     return (
         <PanelColorSettings
-            title="Image foreground overlay"
+            title="Foreground overlay"
             colors={colors}
             enableAlpha
             colorSettings={[
@@ -91,7 +96,7 @@ const ColorPickerBackground = (props) => {
 
     return (
         <PanelColorSettings
-            title="Image background overlay"
+            title="Background overlay"
             colors={colors}
             enableAlpha
             colorSettings={[
@@ -208,26 +213,30 @@ const editInspectorControls = createHigherOrderComponent(
         return (
             <>
                 <InspectorControls>
-                    <ColorPickerLineColor {...props} />
-                    <PanelBody>
+                    <PanelBody
+                        title={__('Text and decoration')}
+                        initialOpen={false}
+                        icon={plugins}>
+                        <ColorPickerLineColor {...props} />
                         <ToggleControl
                             label="Use line- and text blend mode"
                             checked={textBlendMode}
                             onChange={(textBlendMode) => updateTextBlendMode(textBlendMode)}
-                            />
-                    </PanelBody>
-                    <PanelBody>
+                        />
                         <FontSizePicker
                             fontSizes={fontSizes}
-                            value={ fontSize }
-                            onChange={(fontSize=>updateFontSize(fontSize))}
-                            />
+                            value={fontSize}
+                            onChange={(fontSize => updateFontSize(fontSize))}
+                        />
                     </PanelBody>
-                    <ColorPickerForeground {...props} />
-                    <ColorPickerBackground {...props} />
-                    <PanelBody>
+                    <PanelBody
+                        title={__('Image')}
+                        initialOpen={false}
+                        icon={plugins}>
+                        <ColorPickerForeground {...props} />
+                        <ColorPickerBackground {...props} />
                         <SelectControl
-                            label="Image blend mode"
+                            label="Blend mode"
                             value={blendMode}
                             options={[
                                 { label: 'Multiply', value: 'multiply' },
@@ -237,7 +246,10 @@ const editInspectorControls = createHigherOrderComponent(
                             __nextHasNoMarginBottom
                         />
                     </PanelBody>
-                    <PanelBody title={__('Sort Exif')}>
+                    <PanelBody
+                        title={__('Sort Exif')}
+                        initialOpen={false}
+                        icon={plugins}>
                         <SelectControl
                             label="Order by"
                             value={orderBy}
