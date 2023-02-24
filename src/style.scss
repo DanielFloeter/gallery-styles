@@ -12,6 +12,27 @@ $blend-mode: var(--blend-mode, 'multiply');
 $text-blend-mode: var(--text-blend-mode, 'normal');
 $font-size: var(--font-size, '1.75rem');
 
+.is-style-default.wp-block-gallery.has-nested-images figure a,
+.is-style-default.wp-block-gallery.has-nested-images figure {
+
+    background: $foreground;
+    transition: background 0.35s;
+
+    img {
+        mix-blend-mode: $blend-mode;
+    }
+
+    &:hover {
+
+        background: $background;
+    }
+
+    figcaption {
+        color: $line-color;
+        mix-blend-mode: $text-blend-mode;
+    }
+}
+
 .is-style-animate-inside-lines.wp-block-gallery.has-nested-images figure a,
 .is-style-animate-inside-lines.wp-block-gallery.has-nested-images figure {
 
