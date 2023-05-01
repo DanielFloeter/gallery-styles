@@ -4,7 +4,7 @@
  * Plugin URI:  https://github.com/DanielFloeter/gallery-styles
  * Description: Additional Styles for the WordPress core/gallery
  * Version:     1.2.4
- * Author:      Daniel Flöter
+ * Author:      TipTopPress
  * Author URI:  https://tiptoppress.com
  * License:     GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
