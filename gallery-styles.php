@@ -3,7 +3,7 @@
  * Plugin Name: Gallery Styles
  * Plugin URI:  https://github.com/DanielFloeter/gallery-styles
  * Description: Additional Styles for the WordPress core/gallery
- * Version:     1.2.3
+ * Version:     1.2.4
  * Author:      Daniel Flöter
  * Author URI:  https://tiptoppress.com
  * License:     GPL-2.0-or-later
@@ -29,8 +29,9 @@ function custom_block_wrapper( $block_content, $block ) {
         $blend_mode_styles = (isset( $block['attrs']['blendMode'] ) && $block['attrs']['blendMode'] !== '') ? '--blend-mode:' . $block['attrs']['blendMode'] : '';
         $text_blend_mode_styles = (isset( $block['attrs']['textBlendMode'] ) && $block['attrs']['textBlendMode'] !== '') ? '--text-blend-mode:color-dodge' : '--text-blend-mode:normal';
         $font_size = (isset( $block['attrs']['fontSize'] ) && $block['attrs']['fontSize'] !== '') ? '--font-size:' . $block['attrs']['fontSize'] : '';
+        $disable_caption = (isset( $block['attrs']['disableCaption'] ) && $block['attrs']['disableCaption'] !== '') ? '--disable-caption:hidden' : '';
 
-        $content = '<div style="' . $line_color_styles . '; ' . $foreground_styles . '; ' . $background_styles . '; ' . $blend_mode_styles . '; ' . $text_blend_mode_styles . '; ' . $font_size . '">';
+        $content = '<div style="' . $line_color_styles . '; ' . $foreground_styles . '; ' . $background_styles . '; ' . $disable_caption . '; ' . $blend_mode_styles . '; ' . $text_blend_mode_styles . '; ' . $font_size . '">';
         $content .= $block_content;
         $content .= '</div>';
         return $content;

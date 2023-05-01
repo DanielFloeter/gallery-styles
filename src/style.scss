@@ -11,6 +11,14 @@ $background: var(--background, #ffffff00);
 $blend-mode: var(--blend-mode, 'multiply');
 $text-blend-mode: var(--text-blend-mode, 'normal');
 $font-size: var(--font-size, '1.75rem');
+$display-caption: var(--disable-caption, '');
+
+.wp-block-gallery.has-nested-images figure a,
+.wp-block-gallery.has-nested-images figure {
+    figcaption {
+        visibility: $display-caption;
+    }
+}
 
 .is-style-default.wp-block-gallery.has-nested-images figure a,
 .is-style-default.wp-block-gallery.has-nested-images figure {

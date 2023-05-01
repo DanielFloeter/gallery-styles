@@ -1,8 +1,6 @@
 import { __, _x } from '@wordpress/i18n';
 import { __experimentalGetCoreBlocks } from '@wordpress/block-library';
 import { addFilter } from '@wordpress/hooks';
-import { registerBlockType, unregisterBlockType } from '@wordpress/blocks';
-import domReady from '@wordpress/dom-ready';
 import './style.scss';
 import './editor.scss';
 import editInspectorControls from './hooks';
@@ -35,6 +33,10 @@ function addAttributes(settings, name) {
                 blendMode: {
                     type: String,
                     default: 'multiply',
+                },
+                disableCaption: {
+                    type: Boolean,
+                    default: false,
                 },
                 textBlendMode: {
                     type: Boolean,

@@ -119,7 +119,7 @@ const ColorPickerBackground = (props) => {
 const editInspectorControls = createHigherOrderComponent(
     (BlockEdit) => (props) => {
         const { name, attributes, setAttributes } = props;
-        const { sortOrder, orderBy, blendMode, textBlendMode, fontSize } = attributes;
+        const { sortOrder, orderBy, disableCaption, blendMode, textBlendMode, fontSize } = attributes;
         if (name !== 'core/gallery') {
             return <BlockEdit key="edit" {...props} />;
         }
@@ -139,8 +139,14 @@ const editInspectorControls = createHigherOrderComponent(
             replaceInnerBlocks,
         } = useDispatch(blockEditorStore);
 
-        function updateBlendMode(blendMode) {
+        function updateDisableCaption(disableCaption) {
+            setAttributes(
+                {
+                    disableCaption
+                });
+        }
 
+        function updateBlendMode(blendMode) {
             setAttributes(
                 {
                     blendMode
@@ -148,7 +154,6 @@ const editInspectorControls = createHigherOrderComponent(
         }
 
         function updateTextBlendMode(textBlendMode) {
-
             setAttributes(
                 {
                     textBlendMode
@@ -160,7 +165,6 @@ const editInspectorControls = createHigherOrderComponent(
         );
 
         function updateFontSize(fontSize) {
-
             setAttributes(
                 {
                     fontSize
@@ -219,7 +223,12 @@ const editInspectorControls = createHigherOrderComponent(
                         icon={plugins}>
                         <ColorPickerLineColor {...props} />
                         <ToggleControl
-                            label="Use line- and text blend mode"
+                            label="Disable captions"
+                            checked={disableCaption}
+                            onChange={(disableCaption) => updateDisableCaption(disableCaption)}
+                        />
+                        <ToggleControl
+                            label="Blend mode"
                             checked={textBlendMode}
                             onChange={(textBlendMode) => updateTextBlendMode(textBlendMode)}
                         />
@@ -278,6 +287,7 @@ const editInspectorControls = createHigherOrderComponent(
                         '--blend-mode': props.attributes.blendMode,
                         '--text-blend-mode': props.attributes.textBlendMode ? "color-dodge" : "normal",
                         '--font-size': props.attributes.fontSize,
+                        '--disable-caption': props.attributes.disableCaption ? "hidden" : " ",
                     }}>
                     <BlockEdit key="edit" {...props} />
                 </div>
