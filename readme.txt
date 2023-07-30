@@ -3,8 +3,8 @@ Contributors:      kometschuh
 Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              block, gallery, sort
 Requires at least: 5.6
-Tested up to:      6.2
-Stable tag:        1.2.4
+Tested up to:      6.3
+Stable tag:        1.2.5
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,9 @@ Than go to Gallery settings and choose the option Link To: Media File.
 3. Option sort by Exif data
 
 == Changelog ==
+
+= 1.2.4 - Juli 30th 2023 =
+* Bugfix Style Inside Lines
 
 = 1.2.4 - Mai 1st 2023 =
 * Disable catpions
