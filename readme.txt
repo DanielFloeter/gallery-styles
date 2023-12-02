@@ -4,7 +4,7 @@ Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              block, gallery, sort
 Requires at least: 5.6
 Tested up to:      6.4
-Stable tag:        1.2.5
+Stable tag:        1.2.6
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,9 @@ Than go to Gallery settings and choose the option Link To: Media File.
 3. Option sort by Exif data
 
 == Changelog ==
+
+= 1.2.4 - Dec 02th 2023 =
+* Bugfix Blendmode, Inside Lines
 
 = 1.2.4 - Juli 30th 2023 =
 * Bugfix Style Inside Lines

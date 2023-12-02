@@ -3,7 +3,7 @@
  * Plugin Name: Gallery Styles
  * Plugin URI:  https://github.com/DanielFloeter/gallery-styles
  * Description: Additional Styles for the WordPress core/gallery
- * Version:     1.2.5
+ * Version:     1.2.6
  * Author:      TipTopPress
  * Author URI:  https://tiptoppress.com
  * License:     GPL-2.0-or-later
@@ -26,7 +26,7 @@ function custom_block_wrapper( $block_content, $block ) {
         $line_color_styles = (isset( $block['attrs']['lineColor'] ) && $block['attrs']['lineColor'] !== '') ? '--line-color:' . $block['attrs']['lineColor'] : '';
         $foreground_styles = (isset( $block['attrs']['foreground'] ) && $block['attrs']['foreground'] !== '') ? '--foreground:' . $block['attrs']['foreground'] : '';
         $background_styles = (isset( $block['attrs']['background'] ) && $block['attrs']['background'] !== '') ? '--background:' . $block['attrs']['background'] : '';
-        $blend_mode_styles = (isset( $block['attrs']['blendMode'] ) && $block['attrs']['blendMode'] !== '') ? '--blend-mode:' . $block['attrs']['blendMode'] : '';
+        $blend_mode_styles = (isset( $block['attrs']['blendMode'] ) && $block['attrs']['blendMode'] !== '') ? '--blend-mode:' . $block['attrs']['blendMode'] : '--blend-mode:multiply';
         $text_blend_mode_styles = (isset( $block['attrs']['textBlendMode'] ) && $block['attrs']['textBlendMode'] !== '') ? '--text-blend-mode:color-dodge' : '--text-blend-mode:normal';
         $font_size = (isset( $block['attrs']['fontSize'] ) && $block['attrs']['fontSize'] !== '') ? '--font-size:' . $block['attrs']['fontSize'] : '';
         $disable_caption = (isset( $block['attrs']['disableCaption'] ) && $block['attrs']['disableCaption'] !== '') ? '--disable-caption:hidden' : '';

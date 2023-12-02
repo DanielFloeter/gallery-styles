@@ -46,6 +46,34 @@ $display-caption: var(--disable-caption, '');
     background: $foreground;
     transition: background 0.35s;
 
+    /* front */
+    &:before,
+    &:after {
+        content: '';
+        opacity: 0;
+        position: absolute;
+        transition: transform 0.45s;
+        top: 15px;
+        right: 15px;
+        bottom: 15px;
+        left: 15px;
+        box-shadow: unset;
+        z-index: 1;
+        mix-blend-mode: $text-blend-mode;
+    }
+
+    &:before {
+        border-top: 1px solid $line-color;
+        border-bottom: 1px solid $line-color;
+        transform: scale(0, 1);
+    }
+
+    &:after {
+        border-right: 1px solid $line-color;
+        border-left: 1px solid $line-color;
+        transform: scale(1, 0);
+    }
+    /* editor */
     div,
     a {
         &:before,
@@ -76,6 +104,16 @@ $display-caption: var(--disable-caption, '');
         }
     }
 
+    /* front */
+    &:hover,
+    &:hover {
+            &:before,
+            &:after {
+                opacity: 1;
+                transform: scale(1, 1);
+            }
+    }
+    /* editor */
     &:hover,
     &:hover {
         div,
