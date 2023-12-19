@@ -1,4 +1,5 @@
 import { __, _x } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
 import { __experimentalGetCoreBlocks } from '@wordpress/block-library';
 import { addFilter } from '@wordpress/hooks';
 import './style.scss';
