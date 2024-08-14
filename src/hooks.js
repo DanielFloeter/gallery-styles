@@ -182,7 +182,7 @@ const editInspectorControls = createHigherOrderComponent(
             replaceInnerBlocks(
                 clientId,
                 (orderBy === 'db' ?
-                (sortOrder ? innerBlockImagesDB : innerBlockImagesDB.reverse()) :
+                innerBlockImagesDB :
                 innerBlockImages
                     .sort(
                         (a, b) => {
@@ -304,7 +304,10 @@ const editInspectorControls = createHigherOrderComponent(
                         <ToggleControl
                             label="Sort order (asc)"
                             checked={sortOrder}
-                            onChange={(sortOrder) => updateImages(sortOrder, orderBy)}
+                            onChange={(sortOrder) => {
+                                innerBlockImagesDB.reverse(); 
+                                updateImages(sortOrder, orderBy)
+                            }}
                         />
                     </PanelBody>
                 </InspectorControls>
