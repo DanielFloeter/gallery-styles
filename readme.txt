@@ -3,8 +3,8 @@ Contributors:      kometschuh
 Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              block, gallery, sort
 Requires at least: 5.6
-Tested up to:      6.4
-Stable tag:        1.2.6
+Tested up to:      6.5
+Stable tag:        1.3.1
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -22,7 +22,7 @@ Additional Styles for the WordPress core/gallery.
 * Foreground, background and line colorpicker
 * Filter, duotone, multiply, luminosity
 * Font-size, font blend-mode
-* Sort by Exif
+* Sort by (As uploaded, Media Id, Name, Exif created, WordPress date, WordPress modified, random)
 
 = Contribute =
 While using this plugin if you find any bug or any conflict, please submit an issue at [Github](https://github.com/DanielFloeter/gallery-styles) (If possible with a pull request).
@@ -52,10 +52,13 @@ Than go to Gallery settings and choose the option Link To: Media File.
 
 == Changelog ==
 
-= 1.2.4 - Dec 02th 2023 =
+= 1.3.1 - Aug 14th 2024 =
+* Option Sort by Exif created and As uploaded
+
+= 1.2.6 - Dec 02th 2023 =
 * Bugfix Blendmode, Inside Lines
 
-= 1.2.4 - Juli 30th 2023 =
+= 1.2.5 - Juli 30th 2023 =
 * Bugfix Style Inside Lines
 
 = 1.2.4 - Mai 1st 2023 =

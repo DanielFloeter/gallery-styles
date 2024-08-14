@@ -15,9 +15,9 @@ const icon = {
 }
 
 // Add a color attribute
-function addAttributes(settings, name) {
+function addAttributes(settings, name) { 
     if (typeof settings.attributes !== 'undefined') {
-        if (name == 'core/gallery') {
+        if (name == 'core/gallery') { 
             settings.attributes = Object.assign(settings.attributes, {
                 lineColor: {
                     type: 'string',
@@ -54,6 +54,10 @@ function addAttributes(settings, name) {
                 orderBy: {
                     type: String,
                     default: 'none'
+                },
+                innerBlockImagesDB: {
+                    type: Object,
+                    default: []
                 }
             });
         }
@@ -71,6 +75,7 @@ addFilter(
     'core/gallery',
     addAttributes
 );
+
 
 addFilter(
     'editor.BlockEdit',

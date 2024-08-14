@@ -119,7 +119,7 @@ const ColorPickerBackground = (props) => {
 const editInspectorControls = createHigherOrderComponent(
     (BlockEdit) => (props) => {
         const { name, attributes, setAttributes } = props;
-        const { sortOrder, orderBy, disableCaption, blendMode, textBlendMode, fontSize } = attributes;
+        const { sortOrder, orderBy, disableCaption, blendMode, textBlendMode, fontSize, innerBlockImagesDB } = attributes;
         if (name !== 'core/gallery') {
             return <BlockEdit key="edit" {...props} />;
         }
@@ -134,6 +134,13 @@ const editInspectorControls = createHigherOrderComponent(
             },
             [clientId]
         );
+
+        if ( innerBlockImagesDB.length === 0 && innerBlockImages.every(e => e?.attributes.url.startsWith('http'))) { 
+            setAttributes(
+                {
+                    innerBlockImagesDB: innerBlockImages
+                });
+        }
 
         const {
             replaceInnerBlocks,
@@ -174,6 +181,8 @@ const editInspectorControls = createHigherOrderComponent(
         function updateImages(sortOrder, orderBy) {
             replaceInnerBlocks(
                 clientId,
+                (orderBy === 'db' ?
+                (sortOrder ? innerBlockImagesDB : innerBlockImagesDB.reverse()) :
                 innerBlockImages
                     .sort(
                         (a, b) => {
@@ -192,19 +201,37 @@ const editInspectorControls = createHigherOrderComponent(
                                 case 'date':
                                     const dateA = new Date(wp.data.select('core').getMedia(a.attributes.id).date);
                                     const dateB = new Date(wp.data.select('core').getMedia(b.attributes.id).date);
-                                    return sortOrder ? dateA - dateB : dateB - dateA;
+                                    if (dateA < dateB) {
+                                        return sortOrder ? 1 : -1;
+                                    }
+                                    if (dateA > dateB) {
+                                        return sortOrder ? -1 : 1;
+                                    }
                                 case 'modified':
                                     const modifiedA = new Date(wp.data.select('core').getMedia(a.attributes.id).modified);
                                     const modifiedB = new Date(wp.data.select('core').getMedia(b.attributes.id).modified);
-                                    return sortOrder ? modifiedA - modifiedB : modifiedB - modifiedA;
+                                    if (modifiedA < modifiedB) {
+                                        return sortOrder ? 1 : -1;
+                                    }
+                                    if (modifiedA > modifiedB) {
+                                        return sortOrder ? -1 : 1;
+                                    }
                                 case 'random':
                                     return Math.random() - 0.5;
+                                case 'exifCreated':
+                                    const createdA = wp.data.select('core').getMedia(a.attributes.id).media_details.image_meta.created_timestamp;
+                                    const createdB = wp.data.select('core').getMedia(b.attributes.id).media_details.image_meta.created_timestamp;
+                                    if (createdA < createdB) {
+                                        return sortOrder ? 1 : -1;
+                                    }
+                                    if (createdA > createdB) {
+                                        return sortOrder ? -1 : 1;
+                                    }
                             }
-
-                            // names must be equal
+                            // ... equal
                             return 0;
                         }
-                    )
+                    ))
             );
 
             setAttributes(
@@ -256,17 +283,19 @@ const editInspectorControls = createHigherOrderComponent(
                         />
                     </PanelBody>
                     <PanelBody
-                        title={__('Sort Exif')}
+                        title={__('Sort')}
                         initialOpen={false}
                         icon={plugins}>
                         <SelectControl
                             label="Order by"
                             value={orderBy}
                             options={[
-                                { label: 'none', value: 'none' },
+                                { label: 'As uploaded', value: 'db' },
+                                { label: 'Media ID', value: 'none' },
                                 { label: 'Name', value: 'name' },
-                                { label: 'Date', value: 'date' },
-                                { label: 'Modified', value: 'modified' },
+                                { label: 'EXIF created', value: 'exifCreated' },
+                                { label: 'WP date', value: 'date' },
+                                { label: 'WP modified', value: 'modified' },
                                 { label: 'Random', value: 'random' },
                             ]}
                             onChange={(orderBy) => updateImages(sortOrder, orderBy)}
