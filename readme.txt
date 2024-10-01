@@ -1,10 +1,10 @@
 === Gallery Styles ===
 Contributors:      kometschuh
 Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
-Tags:              block, gallery, sort
+Tags:              block, gallery, sort, exif
 Requires at least: 5.6
 Tested up to:      6.6
-Stable tag:        1.3.1
+Stable tag:        1.3.2
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -51,6 +51,9 @@ Than go to Gallery settings and choose the option Link To: Media File.
 3. Option sort by Exif data
 
 == Changelog ==
+
+= 1.3.2 - Oct 01th 2024 =
+* Bugfix Link inside lines
 
 = 1.3.1 - Aug 14th 2024 =
 * Option Sort by Exif created and As uploaded

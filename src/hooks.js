@@ -245,9 +245,8 @@ const editInspectorControls = createHigherOrderComponent(
             <>
                 <InspectorControls>
                     <PanelBody
-                        title={__('Text and decoration')}
-                        initialOpen={false}
-                        icon={plugins}>
+                        title={__('Text')}
+                        initialOpen={false}>
                         <ColorPickerLineColor {...props} />
                         <ToggleControl
                             label="Disable captions"
@@ -267,8 +266,7 @@ const editInspectorControls = createHigherOrderComponent(
                     </PanelBody>
                     <PanelBody
                         title={__('Image')}
-                        initialOpen={false}
-                        icon={plugins}>
+                        initialOpen={false}>
                         <ColorPickerForeground {...props} />
                         <ColorPickerBackground {...props} />
                         <SelectControl
@@ -284,8 +282,7 @@ const editInspectorControls = createHigherOrderComponent(
                     </PanelBody>
                     <PanelBody
                         title={__('Sort')}
-                        initialOpen={false}
-                        icon={plugins}>
+                        initialOpen={false}>
                         <SelectControl
                             label="Order by"
                             value={orderBy}
