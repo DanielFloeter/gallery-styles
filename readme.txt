@@ -1,10 +1,10 @@
 === Gallery Styles ===
 Contributors:      kometschuh
 Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
-Tags:              block, gallery, sort, exif
+Tags:              block, gallery, filter, sort, exif
 Requires at least: 5.6
 Tested up to:      6.6
-Stable tag:        1.3.2
+Stable tag:        1.3.3
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -13,16 +13,22 @@ Additional Styles for the WordPress core/gallery.
 
 == Description ==
 
-Additional Styles for the WordPress core/gallery.
+Adds styles, image filters and sorting by images for the WordPress core/gallery.
 
 = Features =
-* Add animated, inside lines
-* Add Cross hover
+* Animated, inside lines style
+* Cross hover style
 * Disable captions
-* Foreground, background and line colorpicker
-* Filter, duotone, multiply, luminosity
+* Foreground-, background and text colorpicker
+* Filter duotone, multiply, luminosity
 * Font-size, font blend-mode
-* Sort by (As uploaded, Media Id, Name, Exif created, WordPress date, WordPress modified, random)
+* Sort by: As uploaded, Media Id, Name, Exif created, WordPress date, WordPress modified, random
+
+= Demo =
+Please check out our demos: [demo.tiptoppress.com/gallery-styles/](https://demo.tiptoppress.com/gallery-styles/)
+
+= Tip Top Press =
+We're [Tip Top Press](http://tiptoppress.com/) and create Gutenberg Blocks for Wordpress. If you want to know about what we're working on and you are interested in backgrounds then you can read all newes storys on our [blog](http://tiptoppress.com/blog/?utm_source=wp.org&utm_medium=readme.txt&utm_campaign=category+archives+block).
 
 = Contribute =
 While using this plugin if you find any bug or any conflict, please submit an issue at [Github](https://github.com/DanielFloeter/gallery-styles) (If possible with a pull request).
@@ -51,6 +57,9 @@ Than go to Gallery settings and choose the option Link To: Media File.
 3. Option sort by Exif data
 
 == Changelog ==
+
+= 1.3.3 - Oct 03rd 2024 =
+* Bugfix Text hover, text size and background
 
 = 1.3.2 - Oct 01th 2024 =
 * Bugfix Link inside lines
