@@ -25,6 +25,7 @@ $display-caption: var(--disable-caption, '');
 
     background: $foreground;
     transition: background 0.35s;
+    z-index: 99;
 
     img {
         mix-blend-mode: $blend-mode;
@@ -39,6 +40,7 @@ $display-caption: var(--disable-caption, '');
         font-size: $font-size;
         color: $line-color;
         mix-blend-mode: $text-blend-mode;
+        z-index: 99;
     }
 }
 
@@ -46,6 +48,7 @@ $display-caption: var(--disable-caption, '');
 
     background: $foreground;
     transition: background 0.35s;
+    z-index: 99;
     img {
         mix-blend-mode: $blend-mode;
     }
@@ -157,6 +160,7 @@ $display-caption: var(--disable-caption, '');
     overflow: hidden;
     background: $foreground;
     transition: background 0.35s;
+    z-index: 99;
 
     &:before,
     &:after {

@@ -21,15 +21,12 @@ function addAttributes(settings, name) {
             settings.attributes = Object.assign(settings.attributes, {
                 lineColor: {
                     type: 'string',
-                    default: '#fff',
                 },
                 foreground: {
                     type: 'string',
-                    default: '#fff',
                 },
                 background: {
                     type: 'string',
-                    default: '#fff',
                 },
                 blendMode: {
                     type: String,

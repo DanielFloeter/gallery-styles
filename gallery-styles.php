@@ -3,7 +3,7 @@
  * Plugin Name: Gallery Styles
  * Plugin URI:  https://github.com/DanielFloeter/gallery-styles
  * Description: Additional Styles for the WordPress core/gallery
- * Version:     1.3.3
+ * Version:     1.3.4
  * Author:      TipTopPress
  * Author URI:  https://tiptoppress.com
  * License:     GPL-2.0-or-later
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * Write the color and accessing 
  * css variable "--line-color"
  */
-function custom_block_wrapper( $block_content, $block ) {
+function custom_block_wrapper( $block_content, $block ) { 
     if ( $block['blockName'] === 'core/gallery' ) {
 
         $line_color_styles = (isset( $block['attrs']['lineColor'] ) && $block['attrs']['lineColor'] !== '') ? '--line-color:' . $block['attrs']['lineColor'] : '';
