@@ -21,6 +21,7 @@ function addAttributes(settings, name) {
             settings.attributes = Object.assign(settings.attributes, {
                 lineColor: {
                     type: 'string',
+                    default: '#fffffffe',
                 },
                 foreground: {
                     type: 'string',

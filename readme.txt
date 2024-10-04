@@ -58,7 +58,7 @@ Than go to Gallery settings and choose the option Link To: Media File.
 
 == Changelog ==
 
-= 1.3.4 - Oct 04rd 2024 =
+= 1.3.4 - Oct 04th 2024 =
 * Bugfix Reset foreground-, background color
 
 = 1.3.3 - Oct 03rd 2024 =
