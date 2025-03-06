@@ -3,8 +3,8 @@ Contributors:      kometschuh
 Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              block, gallery, filter, sort, exif
 Requires at least: 5.6
-Tested up to:      6.6
-Stable tag:        1.3.4
+Tested up to:      6.7
+Stable tag:        1.3.5
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -57,6 +57,9 @@ Than go to Gallery settings and choose the option Link To: Media File.
 3. Option sort by Exif data
 
 == Changelog ==
+
+= 1.3.5 - March 06th 2025 =
+* Bugfix Escaping data
 
 = 1.3.4 - Oct 04th 2024 =
 * Bugfix Reset foreground-, background color
