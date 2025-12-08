@@ -56,6 +56,12 @@ $display-caption: var(--disable-caption, '');
     &:hover {
         background: $background;
     }
+    &:has(figcaption):before {
+        height: unset;
+        max-height: unset;
+        backdrop-filter: unset;
+        mask-image: unset;
+    }
     &:before,
     &:after {
         content: '';
