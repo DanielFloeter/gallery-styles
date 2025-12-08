@@ -3,8 +3,8 @@ Contributors:      kometschuh
 Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              block, gallery, filter, sort, exif
 Requires at least: 5.6
-Tested up to:      6.7
-Stable tag:        1.3.5
+Tested up to:      6.9
+Stable tag:        1.3.6
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -22,7 +22,7 @@ Adds styles, image filters and sorting by images for the WordPress core/gallery.
 * Foreground-, background and text colorpicker
 * Filter duotone, multiply, luminosity
 * Font-size, font blend-mode
-* Sort by: As uploaded, Media Id, Name, Exif created, WordPress date, WordPress modified, random
+* Sort by: As uploaded, Media Id, Title, Filename, Exif created, WordPress date, WordPress modified
 
 = Demo =
 Please check out our demos: [demo.tiptoppress.com/gallery-styles/](https://demo.tiptoppress.com/gallery-styles/)
@@ -57,6 +57,10 @@ Than go to Gallery settings and choose the option Link To: Media File.
 3. Option sort by Exif data
 
 == Changelog ==
+
+= 1.3.6 - Dec 8th 2025 =
+* Sort by Title
+* Bugfix Animate inside lines with no links
 
 = 1.3.5 - March 06th 2025 =
 * Bugfix Escaping data

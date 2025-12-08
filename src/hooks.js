@@ -19,9 +19,6 @@ import {
     ToggleControl,
     SelectControl
 } from '@wordpress/components';
-import {
-    plugins
-} from '@wordpress/icons';
 const {
     PanelColorSettings,
 } = wp.blockEditor;
@@ -178,7 +175,7 @@ const editInspectorControls = createHigherOrderComponent(
                 });
         }
 
-        function updateImages(sortOrder, orderBy) {
+        function updateImages(sortOrder, orderBy) { 
             replaceInnerBlocks(
                 clientId,
                 (orderBy === 'db' ?
@@ -189,6 +186,15 @@ const editInspectorControls = createHigherOrderComponent(
                             switch (orderBy) {
                                 case 'none':
                                     return sortOrder ? a.attributes.id - b.attributes.id : b.attributes.id - a.attributes.id;
+                                case 'title' :
+                                    var titleA = wp.data.select('core').getMedia(a.attributes.id).title.rendered;
+                                    var titleB = wp.data.select('core').getMedia(b.attributes.id).title.rendered;
+                                    if (titleA < titleB) {
+                                        return sortOrder ? 1 : -1;
+                                    }
+                                    if (titleA > titleB) {
+                                        return sortOrder ? -1 : 1;
+                                    }
                                 case 'name':
                                     var slugA = wp.data.select('core').getMedia(a.attributes.id).slug;
                                     var slugB = wp.data.select('core').getMedia(b.attributes.id).slug;
@@ -289,11 +295,12 @@ const editInspectorControls = createHigherOrderComponent(
                             options={[
                                 { label: 'As uploaded', value: 'db' },
                                 { label: 'Media ID', value: 'none' },
-                                { label: 'Name', value: 'name' },
+                                { label: 'File name', value: 'name' },
                                 { label: 'EXIF created', value: 'exifCreated' },
+                                { label: 'WP Title', value: 'title' },
                                 { label: 'WP date', value: 'date' },
                                 { label: 'WP modified', value: 'modified' },
-                                { label: 'Random', value: 'random' },
+                                // { label: 'Random', value: 'random' },
                             ]}
                             onChange={(orderBy) => updateImages(sortOrder, orderBy)}
                             __nextHasNoMarginBottom
