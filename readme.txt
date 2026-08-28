@@ -4,7 +4,7 @@ Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              block, gallery, filter, sort, exif
 Requires at least: 5.6
 Tested up to:      6.9
-Stable tag:        1.3.6
+Stable tag:        1.4.0
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -23,6 +23,7 @@ Adds styles, image filters and sorting by images for the WordPress core/gallery.
 * Filter duotone, multiply, luminosity
 * Font-size, font blend-mode
 * Sort by: As uploaded, Media Id, Title, Filename, Exif created, WordPress date, WordPress modified
+* Link to: Expand on click as default for new galleries (WordPress 6.4 and higher)
 
 = Demo =
 Please check out our demos: [demo.tiptoppress.com/gallery-styles/](https://demo.tiptoppress.com/gallery-styles/)
@@ -47,8 +48,12 @@ e.g.
 
 = How can I 'Link to' a Lightbox =
 
-Search for 'Lightbox' in the [Plugins directory](https://wordpress.org/plugins/search/lightbox/) and install a Lightbox Plugin you want.
-Than go to Gallery settings and choose the option Link To: Media File.
+Since WordPress 6.4 the image block brings its own lightbox, and 'Expand on click' is the default of this plugin for newly inserted galleries. You can change it any time with the 'Link' button in the block toolbar of the gallery.
+On older WordPress versions without a lightbox this plugin sets no default at all. Search for 'Lightbox' in the [Plugins directory](https://wordpress.org/plugins/search/lightbox/), install a Lightbox Plugin you want and choose 'Link images to media files' in the block toolbar.
+
+= Does this change my existing galleries? =
+
+No. The default is only written to galleries you insert after installing this plugin. Galleries in existing posts keep their link settings, opening them in the editor does not change them.
 
 == Screenshots ==
 
@@ -57,6 +62,9 @@ Than go to Gallery settings and choose the option Link To: Media File.
 3. Option sort by Exif data
 
 == Changelog ==
+
+= 1.4.0 - Aug 28th 2026 =
+* Link to 'Expand on click' (lightbox) is the new default for newly inserted galleries, on WordPress versions without a lightbox no default is set
 
 = 1.3.6 - Dec 8th 2025 =
 * Sort by Title
