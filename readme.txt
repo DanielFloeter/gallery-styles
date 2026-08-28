@@ -51,6 +51,12 @@ e.g.
 Since WordPress 6.4 the image block brings its own lightbox, and 'Expand on click' is the default of this plugin for newly inserted galleries. You can change it any time with the 'Link' button in the block toolbar of the gallery.
 On older WordPress versions without a lightbox this plugin sets no default at all. Search for 'Lightbox' in the [Plugins directory](https://wordpress.org/plugins/search/lightbox/), install a Lightbox Plugin you want and choose 'Link images to media files' in the block toolbar.
 
+= I use a Lightbox Plugin, why does it not open my gallery images? =
+
+Lightbox Plugins work on links to the media file, so they need 'Link images to media files'.
+Since WordPress 6.4 this plugin preselects 'Expand on click' instead, which uses the lightbox built into WordPress and leaves no link for your Lightbox Plugin to pick up.
+Select 'Link images to media files' with the 'Link' button in the block toolbar of the gallery and your Lightbox Plugin takes over again. Galleries you created before are not affected.
+
 = Does this change my existing galleries? =
 
 No. The default is only written to galleries you insert after installing this plugin. Galleries in existing posts keep their link settings, opening them in the editor does not change them.
