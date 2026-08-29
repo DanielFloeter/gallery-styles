@@ -55,14 +55,6 @@ function addAttributes(settings, name) {
                 innerBlockImagesDB: {
                     type: Object,
                     default: []
-                },
-                // Issue #10: ids of the images the default link destination
-                // has already been written to, so that manual changes on a
-                // single image are kept, while newly added images still get
-                // the gallery link destination.
-                linkToAppliedIds: {
-                    type: Array,
-                    default: []
                 }
             });
 
@@ -99,9 +91,9 @@ addFilter(
     );
 });
 
-registerBlockType(
-    name, {
-    ...metadata,
-    icon,
-}
-);
+// registerBlockType(
+//     name, {
+//     ...metadata,
+//     icon,
+// }
+// );

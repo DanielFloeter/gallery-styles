@@ -20,16 +20,30 @@ import {
     SelectControl
 } from '@wordpress/components';
 import { useEffect, useRef } from '@wordpress/element';
-import {
-    LINK_DESTINATION_LIGHTBOX,
-    getHrefAndDestination,
-    hasLightboxSupport,
-    matchesLinkDestination,
-    normalizeLinkDestination
-} from './link-utils';
 const {
     PanelColorSettings,
 } = wp.blockEditor;
+
+/**
+ * Gutenberg link destination for the lightbox built into WordPress.
+ */
+const LINK_DESTINATION_LIGHTBOX = 'lightbox';
+
+/**
+ * Whether the installed WordPress version offers a lightbox
+ * ("Expand on click" / "Enlarge image") for the image block.
+ *
+ * WordPress 6.5+ uses the `lightbox` attribute, WordPress 6.4 used
+ * `behaviors.lightbox`. Older versions have neither.
+ *
+ * @return {boolean} True when a lightbox attribute exists.
+ */
+function hasLightboxSupport() {
+    const attributes =
+        wp?.blocks?.getBlockType?.('core/image')?.attributes ?? {};
+    return 'lightbox' in attributes || 'behaviors' in attributes;
+}
+
 
 const ColorPickerLineColor = (props) => {
     const { attributes, setAttributes } = props;
@@ -124,7 +138,7 @@ const ColorPickerBackground = (props) => {
 const editInspectorControls = createHigherOrderComponent(
     (BlockEdit) => (props) => {
         const { name, attributes, setAttributes } = props;
-        const { sortOrder, orderBy, disableCaption, blendMode, textBlendMode, fontSize, innerBlockImagesDB, linkTo, linkToAppliedIds } = attributes;
+        const { sortOrder, orderBy, disableCaption, blendMode, textBlendMode, fontSize, innerBlockImagesDB } = attributes;
         if (name !== 'core/gallery') {
             return <BlockEdit key="edit" {...props} />;
         }
@@ -149,124 +163,39 @@ const editInspectorControls = createHigherOrderComponent(
 
         const {
             replaceInnerBlocks,
-            updateBlockAttributes,
         } = useDispatch(blockEditorStore);
 
         /**
-         * Issue #10: default link destination.
+         * Issue #10: "Expand on click" as the default link destination.
          *
-         * Changing the link destination stays the job of the "Link" dropdown
-         * in the block toolbar of core/gallery. What core does not do is apply
-         * a default to a freshly inserted gallery - depending on the version
-         * the `linkTo` attribute is missing or its default is ignored - so the
-         * plugin writes `href`, `linkDestination` and the lightbox attribute
-         * to the images of a new gallery itself.
+         * Only the `linkTo` attribute of the gallery is set, and only while the
+         * gallery is still empty. From there on core writes the lightbox onto
+         * every image it puts into the gallery, so the plugin never touches the
+         * image blocks itself - and cannot end up fighting core over them.
+         *
+         * A gallery that already has images comes from existing content and is
+         * left untouched.
          */
-        const imageIds = (innerBlockImages ?? [])
-            .map((block) => block?.attributes?.id)
-            .filter((id) => !!id);
-
-        const imageData = useSelect(
-            (select) => {
-                const core = select('core');
-                // `getMedia` is deprecated since WordPress 6.9, the attachment
-                // entity is the replacement and exists since WordPress 5.9.
-                const getAttachment =
-                    typeof core.getEntityRecord === 'function'
-                        ? (id) => core.getEntityRecord('postType', 'attachment', id)
-                        : (id) => core.getMedia(id);
-                return imageIds.map((id) => getAttachment(id));
-            },
-            [imageIds.join(',')]
-        );
-
-        // Only WordPress versions with a lightbox get a default from this
-        // plugin. Without one there is nothing sensible to preselect, so the
-        // gallery keeps whatever core does on its own.
         const lightboxSupported = hasLightboxSupport();
 
-        // The link destination the gallery currently carries.
-        const linkDestination = normalizeLinkDestination(linkTo);
-
-        // Existing content is never touched: only a gallery that was inserted
-        // empty in this editor session gets the default link destination
-        // written to its images.
         const isNewGallery = useRef(null);
         if (isNewGallery.current === null) {
             isNewGallery.current = (innerBlockImages ?? []).length === 0;
         }
 
-        function getMediaById(id) {
-            return imageData?.find((media) => media?.id === id);
-        }
-
-        function applyLinkTo(destination, blocks = innerBlockImages) {
-            const changed = {};
-
-            (blocks ?? []).forEach((block) => {
-                const attributes = getHrefAndDestination(
-                    getMediaById(block.attributes.id),
-                    destination,
-                    block.attributes
-                );
-                changed[block.clientId] = attributes;
-                updateBlockAttributes(block.clientId, attributes);
-            });
-
-            // Keep the "As uploaded" snapshot in sync, otherwise switching the
-            // sort order back to 'db' would restore the old link attributes.
-            if (innerBlockImagesDB?.length) {
-                setAttributes({
-                    innerBlockImagesDB: innerBlockImagesDB.map((block) =>
-                        changed[block.clientId]
-                            ? {
-                                  ...block,
-                                  attributes: {
-                                      ...block.attributes,
-                                      ...changed[block.clientId],
-                                  },
-                              }
-                            : block
-                    ),
-                });
-            }
-        }
-
-        // Images the gallery link destination has not been written to yet:
-        // a newly inserted gallery, or images added to an existing one.
-        const pendingBlocks = (innerBlockImages ?? []).filter(
-            (block) =>
-                block?.attributes?.id &&
-                !(linkToAppliedIds ?? []).includes(block.attributes.id)
-        );
-        const pendingResolved =
-            pendingBlocks.length > 0 &&
-            pendingBlocks.every((block) => !!getMediaById(block.attributes.id));
+        const defaultApplied = useRef(false);
 
         useEffect(() => {
-            if (!lightboxSupported || !isNewGallery.current || !pendingResolved) {
+            if (
+                defaultApplied.current ||
+                !isNewGallery.current ||
+                !lightboxSupported
+            ) {
                 return;
             }
-            // The first images of a new gallery get "Expand on click", later
-            // ones follow whatever the gallery is set to by then.
-            const firstRun = (linkToAppliedIds ?? []).length === 0;
-            const destination = firstRun
-                ? LINK_DESTINATION_LIGHTBOX
-                : linkDestination;
-
-            const outdated = pendingBlocks.filter(
-                (block) => !matchesLinkDestination(block.attributes, destination)
-            );
-            if (outdated.length) {
-                applyLinkTo(destination, outdated);
-            }
-            setAttributes({
-                linkTo: destination,
-                linkToAppliedIds: [
-                    ...new Set([...(linkToAppliedIds ?? []), ...imageIds]),
-                ],
-            });
-        }, [lightboxSupported, pendingResolved, pendingBlocks.length, linkDestination]);
+            defaultApplied.current = true;
+            setAttributes({ linkTo: LINK_DESTINATION_LIGHTBOX });
+        }, [lightboxSupported]);
 
 
         function updateDisableCaption(disableCaption) {
