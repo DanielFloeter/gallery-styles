@@ -154,7 +154,7 @@ const editInspectorControls = createHigherOrderComponent(
             [clientId]
         );
 
-        if ( innerBlockImagesDB.length === 0 && innerBlockImages.every(e => e?.attributes.url.startsWith('http'))) { 
+        if ( innerBlockImagesDB.length === 0 && innerBlockImages?.length && innerBlockImages.every(e => e?.attributes?.id)) { 
             setAttributes(
                 {
                     innerBlockImagesDB: innerBlockImages
