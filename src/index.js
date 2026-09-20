@@ -54,6 +54,10 @@ function addAttributes(settings, name) {
                 innerBlockImagesDB: {
                     type: Object,
                     default: []
+                },
+                uploadOrder: {
+                    type: 'array',
+                    default: []
                 }
             });
 

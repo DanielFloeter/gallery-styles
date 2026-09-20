@@ -138,7 +138,7 @@ const ColorPickerBackground = (props) => {
 const editInspectorControls = createHigherOrderComponent(
     (BlockEdit) => (props) => {
         const { name, attributes, setAttributes } = props;
-        const { sortOrder, orderBy, disableCaption, blendMode, textBlendMode, fontSize, innerBlockImagesDB } = attributes;
+        const { sortOrder, orderBy, disableCaption, blendMode, textBlendMode, fontSize, innerBlockImagesDB, uploadOrder } = attributes;
         if (name !== 'core/gallery') {
             return <BlockEdit key="edit" {...props} />;
         }
@@ -154,12 +154,44 @@ const editInspectorControls = createHigherOrderComponent(
             [clientId]
         );
 
-        if ( innerBlockImagesDB.length === 0 && innerBlockImages?.length && innerBlockImages.every(e => e?.attributes?.id)) { 
-            setAttributes(
-                {
-                    innerBlockImagesDB: innerBlockImages
+        /**
+         * The upload order, kept as a list of attachment ids.
+         *
+         * Only the order is stored, never the image blocks themselves: a
+         * snapshot of whole blocks goes stale and would play back the captions,
+         * alt texts and sizes an image had at upload time.
+         *
+         * Galleries written by an earlier version carry that snapshot in
+         * `innerBlockImagesDB`. Their ids are taken over as they stand - for
+         * those galleries the snapshot is the only remaining trace of the
+         * upload order, and snapshotting the current inner blocks instead would
+         * silently freeze whatever sorting they happen to be showing.
+         */
+        useEffect(() => {
+            if (uploadOrder.length) {
+                return;
+            }
+
+            if (innerBlockImagesDB.length) {
+                setAttributes({
+                    uploadOrder: innerBlockImagesDB.map(
+                        (image) => image?.attributes?.id
+                    ),
                 });
-        }
+                return;
+            }
+
+            if (
+                innerBlockImages?.length &&
+                innerBlockImages.every((e) => e?.attributes?.id)
+            ) {
+                setAttributes({
+                    uploadOrder: innerBlockImages.map(
+                        (image) => image.attributes.id
+                    ),
+                });
+            }
+        }, [uploadOrder.length, innerBlockImages]);
 
         /**
          * The media records behind the gallery images, keyed by attachment id.
