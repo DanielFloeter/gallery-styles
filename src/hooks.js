@@ -289,7 +289,8 @@ const editInspectorControls = createHigherOrderComponent(
 
         /**
          * The value an image is sorted by, or `undefined` when it cannot be
-         * read - an unresolved media record, an image without EXIF data.
+         * read - an unresolved media record, an image without EXIF data, an
+         * image that was added after the upload order was written.
          *
          * @param {Object} image   Inner image block.
          * @param {string} orderBy Sort criterion.
@@ -299,6 +300,13 @@ const editInspectorControls = createHigherOrderComponent(
             const record = media[image?.attributes?.id];
 
             switch (orderBy) {
+                case 'db': {
+                    // An image the upload order does not know keeps its
+                    // position: `undefined` makes `compareImages()` return 0,
+                    // and sorting is stable.
+                    const index = uploadOrder.indexOf(image?.attributes?.id);
+                    return index === -1 ? undefined : index;
+                }
                 case 'none':
                     return image?.attributes?.id;
                 case 'title':
@@ -353,11 +361,9 @@ const editInspectorControls = createHigherOrderComponent(
         function updateImages(sortOrder, orderBy) {
             replaceInnerBlocks(
                 clientId,
-                orderBy === 'db'
-                    ? innerBlockImagesDB
-                    : [...(innerBlockImages ?? [])].sort((a, b) =>
-                          compareImages(a, b, orderBy, sortOrder)
-                      )
+                [...(innerBlockImages ?? [])].sort((a, b) =>
+                    compareImages(a, b, orderBy, sortOrder)
+                )
             );
 
             setAttributes(
@@ -428,10 +434,7 @@ const editInspectorControls = createHigherOrderComponent(
                         <ToggleControl
                             label="Sort order (asc)"
                             checked={sortOrder}
-                            onChange={(sortOrder) => {
-                                innerBlockImagesDB.reverse(); 
-                                updateImages(sortOrder, orderBy)
-                            }}
+                            onChange={(sortOrder) => updateImages(sortOrder, orderBy)}
                         />
                     </PanelBody>
                 </InspectorControls>
