@@ -8,7 +8,7 @@
  * Author URI:  https://tiptoppress.com
  * License:     GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: gallery-styles-block
+ * Text Domain: gallery-styles
  *
  */
 
@@ -57,9 +57,11 @@ function custom_gutenberg_scripts() {
     wp_enqueue_script(
       'block-styles-script',
       plugins_url( 'build/index.js', __FILE__ ),
-      array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ),
+      array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post', 'wp-i18n' ),
       filemtime( plugin_dir_path( __FILE__ ) . './build/index.js' )
     );
+
+    wp_set_script_translations( 'block-styles-script', 'gallery-styles' );
 }
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\custom_gutenberg_scripts' );
 

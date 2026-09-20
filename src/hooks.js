@@ -1,7 +1,7 @@
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import {
     createHigherOrderComponent
 } from '@wordpress/compose';
@@ -59,12 +59,12 @@ const ColorPickerLineColor = (props) => {
 
     return (
         <PanelColorSettings
-            title="Line- and text color"
+            title={__( 'Line- and text color', 'gallery-styles' )}
             colors={colors}
             enableAlpha
             colorSettings={[
                 {
-                    label: __('Color'),
+                    label: __( 'Color', 'gallery-styles' ),
                     value: lineColor,
                     onChange: OnChangeColor,
                 },
@@ -87,12 +87,12 @@ const ColorPickerForeground = (props) => {
 
     return (
         <PanelColorSettings
-            title="Foreground overlay"
+            title={__( 'Foreground overlay', 'gallery-styles' )}
             colors={colors}
             enableAlpha
             colorSettings={[
                 {
-                    label: __('Color'),
+                    label: __( 'Color', 'gallery-styles' ),
                     value: foreground,
                     onChange: OnChangeColor,
                 },
@@ -115,12 +115,12 @@ const ColorPickerBackground = (props) => {
 
     return (
         <PanelColorSettings
-            title="Background overlay"
+            title={__( 'Background overlay', 'gallery-styles' )}
             colors={colors}
             enableAlpha
             colorSettings={[
                 {
-                    label: __('Color'),
+                    label: __( 'Color', 'gallery-styles' ),
                     value: background,
                     onChange: OnChangeColor,
                 },
@@ -377,16 +377,16 @@ const editInspectorControls = createHigherOrderComponent(
             <>
                 <InspectorControls>
                     <PanelBody
-                        title={__('Text')}
+                        title={__( 'Text', 'gallery-styles' )}
                         initialOpen={false}>
                         <ColorPickerLineColor {...props} />
                         <ToggleControl
-                            label="Disable captions"
+                            label={__( 'Disable captions', 'gallery-styles' )}
                             checked={disableCaption}
                             onChange={(disableCaption) => updateDisableCaption(disableCaption)}
                         />
                         <ToggleControl
-                            label="Blend mode"
+                            label={__( 'Blend mode', 'gallery-styles' )}
                             checked={textBlendMode}
                             onChange={(textBlendMode) => updateTextBlendMode(textBlendMode)}
                         />
@@ -397,42 +397,42 @@ const editInspectorControls = createHigherOrderComponent(
                         />
                     </PanelBody>
                     <PanelBody
-                        title={__('Image')}
+                        title={__( 'Image', 'gallery-styles' )}
                         initialOpen={false}>
                         <ColorPickerForeground {...props} />
                         <ColorPickerBackground {...props} />
                         <SelectControl
-                            label="Blend mode"
+                            label={__( 'Blend mode', 'gallery-styles' )}
                             value={blendMode}
                             options={[
-                                { label: 'Multiply', value: 'multiply' },
-                                { label: 'Luminosity', value: 'luminosity' },
+                                { label: __( 'Multiply', 'gallery-styles' ), value: 'multiply' },
+                                { label: __( 'Luminosity', 'gallery-styles' ), value: 'luminosity' },
                             ]}
                             onChange={(blendMode) => updateBlendMode(blendMode)}
                             __nextHasNoMarginBottom
                         />
                     </PanelBody>
                     <PanelBody
-                        title={__('Sort')}
+                        title={__( 'Sort', 'gallery-styles' )}
                         initialOpen={false}>
                         <SelectControl
-                            label="Order by"
+                            label={__( 'Order by', 'gallery-styles' )}
                             value={orderBy}
                             options={[
-                                { label: 'As uploaded', value: 'db' },
-                                { label: 'Media ID', value: 'none' },
-                                { label: 'File name', value: 'name' },
-                                { label: 'EXIF created', value: 'exifCreated' },
-                                { label: 'WP Title', value: 'title' },
-                                { label: 'WP date', value: 'date' },
-                                { label: 'WP modified', value: 'modified' },
-                                // { label: 'Random', value: 'random' },
+                                { label: __( 'As uploaded', 'gallery-styles' ), value: 'db' },
+                                { label: _x( 'Media ID', 'sort criterion', 'gallery-styles' ), value: 'none' },
+                                { label: __( 'File name', 'gallery-styles' ), value: 'name' },
+                                { label: __( 'EXIF created', 'gallery-styles' ), value: 'exifCreated' },
+                                { label: _x( 'WP Title', 'sort criterion', 'gallery-styles' ), value: 'title' },
+                                { label: _x( 'WP date', 'sort criterion', 'gallery-styles' ), value: 'date' },
+                                { label: _x( 'WP modified', 'sort criterion', 'gallery-styles' ), value: 'modified' },
+                                // { label: __( 'Random', 'gallery-styles' ), value: 'random' },
                             ]}
                             onChange={(orderBy) => updateImages(sortOrder, orderBy)}
                             __nextHasNoMarginBottom
                         />
                         <ToggleControl
-                            label="Sort order (asc)"
+                            label={__( 'Sort order (asc)', 'gallery-styles' )}
                             checked={sortOrder}
                             onChange={(sortOrder) => updateImages(sortOrder, orderBy)}
                         />
