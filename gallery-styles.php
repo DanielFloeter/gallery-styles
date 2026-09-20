@@ -2,7 +2,7 @@
 /*
  * Plugin Name: Gallery Styles
  * Plugin URI:  https://github.com/DanielFloeter/gallery-styles
- * Description: Additional Styles for the WordPress core/gallery
+ * Description: Sort gallery images by Exif date, title or filename, plus hover styles, colors and duotone filters for the WordPress gallery block.
  * Version:     1.4.0
  * Author:      TipTopPress
  * Author URI:  https://tiptoppress.com

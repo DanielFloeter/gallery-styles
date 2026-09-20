@@ -1,7 +1,7 @@
-=== Gallery Styles ===
+=== Gallery Styles – Sort & Style the Gallery Block (Exif, Hover, Duotone) ===
 Contributors:      kometschuh
 Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
-Tags:              block, gallery, filter, sort, exif
+Tags:              gallery block, sort images, exif, photo gallery, image hover
 Requires at least: 5.6
 Tested up to:      7.1
 Stable tag:        1.4.0
@@ -9,11 +9,11 @@ Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
-Additional Styles for the WordPress core/gallery.
+Sort gallery images by Exif date, title or filename, plus hover styles, colors and duotone filters for the WordPress gallery block.
 
 == Description ==
 
-Adds styles, image filters and sorting by images for the WordPress core/gallery.
+Adds hover styles, color and duotone filters, and image sorting to the WordPress gallery block.
 
 = Features =
 * Animated, inside lines style

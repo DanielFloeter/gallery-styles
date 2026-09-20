@@ -1,7 +1,7 @@
 {
     "name": "gallery-styles",
     "version": "1.4.0",
-    "description": "Additional Styles for the WordPress core/gallery.",
+    "description": "Sort and style the WordPress gallery block.",
     "author": "kometschuh",
     "license": "GPL-2.0-or-later",
     "main": "build/index.js",

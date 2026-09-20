@@ -3,7 +3,7 @@
     "name": "tiptip/gallery-styles",
     "title": "Gallery Styles",
     "category": "media",
-    "description": "Additional Styles for the WordPress core/gallery.",
+    "description": "Sort and style the WordPress gallery block.",
     "keywords": ["gallery", "images", "photos", "sort"],
     "textdomain": "gallery-styles-block",
     "editorScript": "file:./build/index.js",
