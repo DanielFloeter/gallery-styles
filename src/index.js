@@ -28,31 +28,31 @@ function addAttributes(settings, name) {
                     type: 'string',
                 },
                 blendMode: {
-                    type: String,
+                    type: 'string',
                     default: 'multiply',
                 },
                 disableCaption: {
-                    type: Boolean,
+                    type: 'boolean',
                     default: false,
                 },
                 textBlendMode: {
-                    type: Boolean,
+                    type: 'boolean',
                     default: false,
                 },
                 fontSize: {
-                    type: String,
+                    type: 'string',
                     default: '1.75rem'
                 },
                 sortOrder: {
-                    type: Boolean,
+                    type: 'boolean',
                     default: false
                 },
                 orderBy: {
-                    type: String,
+                    type: 'string',
                     default: 'none'
                 },
                 innerBlockImagesDB: {
-                    type: Object,
+                    type: 'array',
                     default: []
                 },
                 uploadOrder: {
