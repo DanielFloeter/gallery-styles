@@ -1,0 +1,54 @@
+{
+    "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+    "meta": {
+        "title": "Gallery Styles",
+        "description": "Additional styles, filters and sorting for the WordPress gallery block.",
+        "author": "kometschuh",
+        "categories": [
+            "Media"
+        ]
+    },
+    "landingPage": "/wp-admin/post.php?post=1&action=edit",
+    "preferredVersions": {
+        "php": "8.2",
+        "wp": "latest"
+    },
+    "phpExtensionBundles": [
+        "kitchen-sink"
+    ],
+    "steps": [
+        {
+            "step": "login",
+            "username": "admin",
+            "password": "password"
+        },
+        {
+            "step": "setSiteOptions",
+            "options": {
+                "blogname": "Gallery Styles",
+                "blogdescription": "Additional styles for the WordPress gallery block",
+                "permalink_structure": "/%postname%/"
+            }
+        },
+        {
+            "step": "updateUserMeta",
+            "userId": 1,
+            "meta": {
+                "wp_persisted_preferences": {
+                    "_modified": "2026-01-01T00:00:00.000Z",
+                    "core": {
+                        "welcomeGuide": false
+                    },
+                    "core/edit-post": {
+                        "welcomeGuide": false,
+                        "fullscreenMode": false
+                    }
+                }
+            }
+        },
+        {
+            "step": "runPHP",
+            "code": "<?php\nrequire_once '/wordpress/wp-load.php';\nrequire_once ABSPATH . 'wp-admin/includes/image.php';\n\n/**\n * Demo images: a vertical gradient plus two soft circles, so that the styles,\n * the color pickers and the blend modes of Gallery Styles have something to\n * work on. Everything is generated locally, the preview needs no network.\n */\n$uploads = wp_upload_dir();\n$demo    = array(\n\tarray( 'Sunrise', array( 244, 162, 97 ), array( 231, 111, 81 ) ),\n\tarray( 'Lagoon', array( 42, 157, 143 ), array( 38, 70, 83 ) ),\n\tarray( 'Dunes', array( 233, 196, 106 ), array( 244, 162, 97 ) ),\n\tarray( 'Twilight', array( 69, 123, 157 ), array( 29, 53, 87 ) ),\n\tarray( 'Bloom', array( 217, 113, 155 ), array( 122, 62, 143 ) ),\n\tarray( 'Forest', array( 106, 153, 78 ), array( 38, 70, 83 ) ),\n);\n\n$images = array();\n\nforeach ( $demo as $i => $item ) {\n\tlist( $title, $from, $to ) = $item;\n\t$name = 'gallery-styles-demo-' . ( $i + 1 );\n\t$w    = 1200;\n\t$h    = 900;\n\n\tif ( function_exists( 'imagecreatetruecolor' ) ) {\n\t\t$ext  = 'png';\n\t\t$mime = 'image/png';\n\t\t$file = $uploads['path'] . '/' . $name . '.' . $ext;\n\t\t$im   = imagecreatetruecolor( $w, $h );\n\t\tfor ( $y = 0; $y < $h; $y++ ) {\n\t\t\t$t = $y / $h;\n\t\t\t$c = imagecolorallocate(\n\t\t\t\t$im,\n\t\t\t\t(int) ( $from[0] + ( $to[0] - $from[0] ) * $t ),\n\t\t\t\t(int) ( $from[1] + ( $to[1] - $from[1] ) * $t ),\n\t\t\t\t(int) ( $from[2] + ( $to[2] - $from[2] ) * $t )\n\t\t\t);\n\t\t\timageline( $im, 0, $y, $w, $y, $c );\n\t\t}\n\t\timagefilledellipse( $im, 320 + $i * 90, 340, 420, 420, imagecolorallocatealpha( $im, 255, 255, 255, 100 ) );\n\t\timagefilledellipse( $im, 900 - $i * 60, 660, 300, 300, imagecolorallocatealpha( $im, 0, 0, 0, 105 ) );\n\t\timagepng( $im, $file );\n\t\timagedestroy( $im );\n\t} else {\n\t\t$ext  = 'svg';\n\t\t$mime = 'image/svg+xml';\n\t\t$file = $uploads['path'] . '/' . $name . '.' . $ext;\n\t\t$a    = sprintf( '#%02x%02x%02x', $from[0], $from[1], $from[2] );\n\t\t$b    = sprintf( '#%02x%02x%02x', $to[0], $to[1], $to[2] );\n\t\tfile_put_contents(\n\t\t\t$file,\n\t\t\t'<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"' . $w . '\" height=\"' . $h . '\" viewBox=\"0 0 ' . $w . ' ' . $h . '\">'\n\t\t\t. '<defs><linearGradient id=\"g\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0\" stop-color=\"' . $a . '\"/><stop offset=\"1\" stop-color=\"' . $b . '\"/></linearGradient></defs>'\n\t\t\t. '<rect width=\"' . $w . '\" height=\"' . $h . '\" fill=\"url(#g)\"/>'\n\t\t\t. '<circle cx=\"' . ( 320 + $i * 90 ) . '\" cy=\"340\" r=\"210\" fill=\"#ffffff\" fill-opacity=\".25\"/></svg>'\n\t\t);\n\t}\n\n\t$id = wp_insert_attachment(\n\t\tarray(\n\t\t\t'post_mime_type' => $mime,\n\t\t\t'post_title'     => $title,\n\t\t\t'post_excerpt'   => $title . ' - demo image',\n\t\t\t'post_status'    => 'inherit',\n\t\t),\n\t\t$file\n\t);\n\twp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $file ) );\n\n\t$images[] = array(\n\t\t'id'    => $id,\n\t\t'url'   => $uploads['url'] . '/' . $name . '.' . $ext,\n\t\t'title' => $title,\n\t);\n}\n\n/**\n * Build a core/gallery block carrying the Gallery Styles attributes.\n */\nfunction gs_demo_gallery( $images, $attrs, $style_class, $columns = 3 ) {\n\t$inner = '';\n\tforeach ( $images as $image ) {\n\t\t$inner .= '<!-- wp:image {\"id\":' . $image['id'] . ',\"sizeSlug\":\"large\",\"linkDestination\":\"none\"} -->' . \"\\n\";\n\t\t$inner .= '<figure class=\"wp-block-image size-large\"><img src=\"' . esc_url( $image['url'] ) . '\" alt=\"' . esc_attr( $image['title'] ) . '\" class=\"wp-image-' . $image['id'] . '\"/>'\n\t\t\t. '<figcaption class=\"wp-element-caption\">' . esc_html( $image['title'] ) . '</figcaption></figure>' . \"\\n\";\n\t\t$inner .= '<!-- /wp:image -->' . \"\\n\";\n\t}\n\n\t$attrs['columns']   = $columns;\n\t$attrs['linkTo']    = 'none';\n\t$attrs['className'] = $style_class;\n\n\treturn '<!-- wp:gallery ' . wp_json_encode( $attrs ) . ' -->' . \"\\n\"\n\t\t. '<figure class=\"wp-block-gallery has-nested-images columns-' . $columns . ' is-cropped ' . $style_class . '\">' . \"\\n\"\n\t\t. $inner\n\t\t. '</figure>' . \"\\n\"\n\t\t. '<!-- /wp:gallery -->' . \"\\n\\n\";\n}\n\n/**\n * The font size the Gallery Styles font size picker shows for a preset:\n * the picker offers the theme presets, so read the value from the theme\n * instead of hard coding it.\n */\nfunction gs_demo_font_size( $slug, $fallback ) {\n\t$sizes = wp_get_global_settings( array( 'typography', 'fontSizes' ) );\n\t$pool  = array();\n\tforeach ( array( 'theme', 'custom' ) as $origin ) {\n\t\tif ( ! empty( $sizes[ $origin ] ) ) {\n\t\t\t$pool = array_merge( $pool, $sizes[ $origin ] );\n\t\t}\n\t}\n\tforeach ( $pool as $size ) {\n\t\tif ( isset( $size['slug'], $size['size'] ) && $slug === $size['slug'] ) {\n\t\t\treturn $size['size'];\n\t\t}\n\t}\n\treturn $fallback;\n}\n\nfunction gs_demo_heading( $text ) {\n\treturn '<!-- wp:heading -->' . \"\\n\" . '<h2 class=\"wp-block-heading\">' . esc_html( $text ) . '</h2>' . \"\\n\" . '<!-- /wp:heading -->' . \"\\n\\n\";\n}\n\nfunction gs_demo_paragraph( $text ) {\n\treturn '<!-- wp:paragraph -->' . \"\\n\" . '<p>' . $text . '</p>' . \"\\n\" . '<!-- /wp:paragraph -->' . \"\\n\\n\";\n}\n\n$content  = gs_demo_paragraph( 'Gallery Styles adds block styles, colors, filters and sorting to the WordPress <strong>gallery block</strong>. Select one of the galleries below and open the sidebar to play with the options.' );\n$content .= gs_demo_heading( 'Style: Animate inside lines' );\n$content .= gs_demo_paragraph( 'Hover an image: lines are drawn inside the image and the caption fades in. Line color, font size and captions are configurable.' );\n$content .= gs_demo_gallery(\n\t$images,\n\tarray(\n\t\t'lineColor' => '#ffffff',\n\t\t'fontSize'  => '1.5rem',\n\t),\n\t'is-style-animate-inside-lines'\n);\n$content .= gs_demo_heading( 'Style: Cross, with colors and blend mode' );\n$content .= gs_demo_paragraph( 'Foreground and background color are mixed into the image with a blend mode, the caption uses its own blend mode.' );\n$content .= gs_demo_gallery(\n\tarray_slice( $images, 0, 4 ),\n\tarray(\n\t\t'foreground'    => '#ffd166',\n\t\t'background'    => '#264653',\n\t\t'blendMode'     => 'luminosity',\n\t\t'textBlendMode' => true,\n\t\t'fontSize'      => gs_demo_font_size( 'medium', '1.125rem' ),\n\t),\n\t'is-style-cross',\n\t2\n);\n$content .= gs_demo_heading( 'Sorting' );\n$content .= gs_demo_paragraph( 'Select a gallery and use <em>Order by</em> in the Gallery Styles panel to sort the images by media ID, file name, title, EXIF created date, WordPress date or as uploaded - ascending or descending.' );\n\n$post = array(\n\t'post_title'   => 'Gallery Styles - demo',\n\t'post_name'    => 'gallery-styles-demo',\n\t'post_content' => $content,\n\t'post_status'  => 'publish',\n\t'post_type'    => 'post',\n\t'post_author'  => 1,\n);\n\nif ( get_post( 1 ) ) {\n\t$post['ID'] = 1;\n\twp_update_post( $post );\n} else {\n\t$post['import_id'] = 1;\n\twp_insert_post( $post );\n}\n"
+        }
+    ]
+}

@@ -65,7 +65,7 @@ No. The default is only written to galleries you insert after installing this pl
 
 1. Animated, inside lines
 2. Blend mode
-3. Option sort by Exif data
+3. Option sort by WP modified
 
 == Changelog ==
 
