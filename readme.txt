@@ -4,7 +4,7 @@ Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              gallery block, sort images, exif, photo gallery, image hover
 Requires at least: 5.6
 Tested up to:      7.1
-Stable tag:        1.4.0
+Stable tag:        1.4.1
 Requires PHP:      7.0.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -68,6 +68,12 @@ No. The default is only written to galleries you insert after installing this pl
 3. Option sort by WP modified
 
 == Changelog ==
+
+= 1.4.1 - September 20th 2026 =
+* Bugfix Sort by
+* Bugfix Sort order
+* Bugfix Text domain
+* Bugfix Default style colors
 
 = 1.4.0 - Aug 28th 2026 =
 * Link to 'Expand on click' (lightbox) is the new default for newly inserted galleries, on WordPress versions without a lightbox no default is set
