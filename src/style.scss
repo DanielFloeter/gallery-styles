@@ -20,8 +20,15 @@ $display-caption: var(--disable-caption, '');
     }
 }
 
-.is-style-default.wp-block-gallery.has-nested-images .wp-block-image a,
-.is-style-default.wp-block-gallery.has-nested-images .wp-block-image {
+/**
+ * The default style has no class of its own until it is picked: a gallery that
+ * was never given a style carries no `is-style-*` class at all, and one whose
+ * default style was clicked carries `is-style-default`. Matching everything
+ * that is not one of the other styles covers both, so the colors take effect
+ * without having to click "Default" first.
+ */
+.wp-block-gallery.has-nested-images:not(.is-style-animate-inside-lines):not(.is-style-cross) .wp-block-image a,
+.wp-block-gallery.has-nested-images:not(.is-style-animate-inside-lines):not(.is-style-cross) .wp-block-image {
 
     background: $foreground;
     transition: background 0.35s;
