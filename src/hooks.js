@@ -161,6 +161,31 @@ const editInspectorControls = createHigherOrderComponent(
                 });
         }
 
+        /**
+         * The media records behind the gallery images, keyed by attachment id.
+         *
+         * `getMedia()` resolves over the REST API: the first call for an id
+         * returns `undefined` and merely starts the request. Asking for the
+         * records here - inside `useSelect` - kicks that request off while the
+         * inspector renders and re-renders the block once the records have
+         * arrived, so sorting never reads a `slug` or a `title` off an
+         * undefined record.
+         */
+        const imageIds = (innerBlockImages ?? [])
+            .map((image) => image?.attributes?.id)
+            .filter(Boolean);
+
+        const media = useSelect(
+            (select) => {
+                const records = {};
+                imageIds.forEach((id) => {
+                    records[id] = select('core').getMedia(id);
+                });
+                return records;
+            },
+            [imageIds.join(',')]
+        );
+
         const {
             replaceInnerBlocks,
         } = useDispatch(blockEditorStore);
@@ -230,69 +255,77 @@ const editInspectorControls = createHigherOrderComponent(
                 });
         }
 
-        function updateImages(sortOrder, orderBy) { 
+        /**
+         * The value an image is sorted by, or `undefined` when it cannot be
+         * read - an unresolved media record, an image without EXIF data.
+         *
+         * @param {Object} image   Inner image block.
+         * @param {string} orderBy Sort criterion.
+         * @return {*} Comparable value, or `undefined`.
+         */
+        function getSortValue(image, orderBy) {
+            const record = media[image?.attributes?.id];
+
+            switch (orderBy) {
+                case 'none':
+                    return image?.attributes?.id;
+                case 'title':
+                    return record?.title?.rendered;
+                case 'name':
+                    return record?.slug;
+                case 'date':
+                    return record?.date ? Date.parse(record.date) : undefined;
+                case 'modified':
+                    return record?.modified
+                        ? Date.parse(record.modified)
+                        : undefined;
+                case 'exifCreated':
+                    return record?.media_details?.image_meta
+                        ?.created_timestamp;
+            }
+
+            return undefined;
+        }
+
+        /**
+         * Compare two images. Images whose sort value is unavailable keep
+         * their current position instead of throwing.
+         *
+         * @param {Object}  a         First inner image block.
+         * @param {Object}  b         Second inner image block.
+         * @param {string}  orderBy   Sort criterion.
+         * @param {boolean} sortOrder Whether to sort descending.
+         * @return {number} Comparison result.
+         */
+        function compareImages(a, b, orderBy, sortOrder) {
+            if (orderBy === 'random') {
+                return Math.random() - 0.5;
+            }
+
+            const valueA = getSortValue(a, orderBy);
+            const valueB = getSortValue(b, orderBy);
+
+            if (valueA === undefined || valueB === undefined) {
+                return 0;
+            }
+            if (valueA < valueB) {
+                return sortOrder ? 1 : -1;
+            }
+            if (valueA > valueB) {
+                return sortOrder ? -1 : 1;
+            }
+            // ... equal
+            return 0;
+        }
+
+        function updateImages(sortOrder, orderBy) {
             replaceInnerBlocks(
                 clientId,
-                (orderBy === 'db' ?
-                innerBlockImagesDB :
-                innerBlockImages
-                    .sort(
-                        (a, b) => {
-                            switch (orderBy) {
-                                case 'none':
-                                    return sortOrder ? a.attributes.id - b.attributes.id : b.attributes.id - a.attributes.id;
-                                case 'title' :
-                                    var titleA = wp.data.select('core').getMedia(a.attributes.id).title.rendered;
-                                    var titleB = wp.data.select('core').getMedia(b.attributes.id).title.rendered;
-                                    if (titleA < titleB) {
-                                        return sortOrder ? 1 : -1;
-                                    }
-                                    if (titleA > titleB) {
-                                        return sortOrder ? -1 : 1;
-                                    }
-                                case 'name':
-                                    var slugA = wp.data.select('core').getMedia(a.attributes.id).slug;
-                                    var slugB = wp.data.select('core').getMedia(b.attributes.id).slug;
-                                    if (slugA < slugB) {
-                                        return sortOrder ? 1 : -1;
-                                    }
-                                    if (slugA > slugB) {
-                                        return sortOrder ? -1 : 1;
-                                    }
-                                case 'date':
-                                    const dateA = new Date(wp.data.select('core').getMedia(a.attributes.id).date);
-                                    const dateB = new Date(wp.data.select('core').getMedia(b.attributes.id).date);
-                                    if (dateA < dateB) {
-                                        return sortOrder ? 1 : -1;
-                                    }
-                                    if (dateA > dateB) {
-                                        return sortOrder ? -1 : 1;
-                                    }
-                                case 'modified':
-                                    const modifiedA = new Date(wp.data.select('core').getMedia(a.attributes.id).modified);
-                                    const modifiedB = new Date(wp.data.select('core').getMedia(b.attributes.id).modified);
-                                    if (modifiedA < modifiedB) {
-                                        return sortOrder ? 1 : -1;
-                                    }
-                                    if (modifiedA > modifiedB) {
-                                        return sortOrder ? -1 : 1;
-                                    }
-                                case 'random':
-                                    return Math.random() - 0.5;
-                                case 'exifCreated':
-                                    const createdA = wp.data.select('core').getMedia(a.attributes.id).media_details.image_meta.created_timestamp;
-                                    const createdB = wp.data.select('core').getMedia(b.attributes.id).media_details.image_meta.created_timestamp;
-                                    if (createdA < createdB) {
-                                        return sortOrder ? 1 : -1;
-                                    }
-                                    if (createdA > createdB) {
-                                        return sortOrder ? -1 : 1;
-                                    }
-                            }
-                            // ... equal
-                            return 0;
-                        }
-                    ))
+                orderBy === 'db'
+                    ? innerBlockImagesDB
+                    : [...(innerBlockImages ?? [])].sort((a, b) =>
+                          compareImages(a, b, orderBy, sortOrder)
+                      )
             );
 
             setAttributes(
