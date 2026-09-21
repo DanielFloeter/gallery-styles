@@ -13,7 +13,7 @@ Sort gallery images by Exif date, title or filename, plus hover styles, colors a
 
 == Description ==
 
-Adds hover styles, color and duotone filters, and image sorting to the WordPress gallery block.
+Sorts the images of your image gallery by Exif date, title or filename, and adds hover styles, color and duotone filters to the WordPress gallery block.
 
 = Features =
 * Animated, inside lines style
