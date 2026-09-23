@@ -2,7 +2,7 @@
  * Gallery Styles is an add-on for the core/gallery block, it does not
  * register a block of its own.
  */
-import { __ } from '@wordpress/i18n';
+import { __, _x } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import './style.scss';
 import './editor.scss';
@@ -88,6 +88,7 @@ addFilter(
 [
     { name: 'animate-inside-lines', label: __( 'Animate inside lines', 'gallery-styles' ) },
     { name: 'cross', label: __( 'Cross', 'gallery-styles' ) },
+    { name: 'hero', label: _x( 'Hero', 'block style: the first image spans a whole row', 'gallery-styles' ) },
 ].forEach(element => {
     wp.blocks.registerBlockStyle(
         'core/gallery',

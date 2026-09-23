@@ -227,3 +227,16 @@ $display-caption: var(--disable-caption, '');
         transform: translate3d(0,-30px,0);
     } 
 }
+
+/**
+ * The first image takes a row of its own, the others follow in the chosen
+ * number of columns. Core sets the image widths with `:not(#individual-image)`,
+ * which carries the weight of an id, so this rule repeats it to win. The
+ * sorting reorders the inner blocks, so the first image is always the first
+ * one after sorting. The colors come from the default rules above, which
+ * match this style as well.
+ */
+.is-style-hero.wp-block-gallery.has-nested-images figure.wp-block-image:first-of-type:not(#individual-image) {
+    width: 100%;
+    flex-basis: 100%;
+}
