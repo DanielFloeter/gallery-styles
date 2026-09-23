@@ -240,3 +240,16 @@ $display-caption: var(--disable-caption, '');
     width: 100%;
     flex-basis: 100%;
 }
+
+/**
+ * The whole gallery is turned around: the rows stack from the bottom up and
+ * each row runs from right to left, so reading from the top left shows the
+ * images in reverse order. Sorted the other way round, the images appear in
+ * their original order again. Core enlarges the images of an incomplete last
+ * row to fill it, and turned around that row is the one on top, holding the
+ * first images.
+ */
+.is-style-reverse.wp-block-gallery.has-nested-images {
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
+}

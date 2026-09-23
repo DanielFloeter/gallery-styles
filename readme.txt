@@ -18,7 +18,8 @@ Sorts the images of your image gallery by Exif date, title or filename, and adds
 = Features =
 * Animated, inside lines style
 * Cross hover style
-* Hero style, the first image spans a whole row
+* Hero style, first image large
+* Reverse layout style
 * Disable captions
 * Foreground-, background and text colorpicker
 * Filter duotone, multiply, luminosity

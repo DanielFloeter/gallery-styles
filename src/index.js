@@ -89,6 +89,7 @@ addFilter(
     { name: 'animate-inside-lines', label: __( 'Animate inside lines', 'gallery-styles' ) },
     { name: 'cross', label: __( 'Cross', 'gallery-styles' ) },
     { name: 'hero', label: _x( 'Hero', 'block style: the first image spans a whole row', 'gallery-styles' ) },
+    { name: 'reverse', label: _x( 'Reverse', 'block style: the gallery is shown in reverse order, bottom up and right to left', 'gallery-styles' ) },
 ].forEach(element => {
     wp.blocks.registerBlockStyle(
         'core/gallery',
