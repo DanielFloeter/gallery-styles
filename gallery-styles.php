@@ -3,7 +3,7 @@
  * Plugin Name: Gallery Styles
  * Plugin URI:  https://github.com/DanielFloeter/gallery-styles
  * Description: Sort gallery images by Exif date, title or filename, plus hover styles, colors and duotone filters for the WordPress gallery block.
- * Version:     1.4.1
+ * Version:     1.4.2
  * Author:      TipTopPress
  * Author URI:  https://tiptoppress.com
  * License:     GPL-2.0-or-later
@@ -54,11 +54,14 @@ function custom_gutenberg_scripts() {
     //   filemtime( plugin_dir_path( __FILE__ ) . 'build/index.css' )
     // );
 
+    $asset = include plugin_dir_path( __FILE__ ) . 'build/index.asset.php';
+
+    // wp.blocks is used as a global, so the build does not list it
     wp_enqueue_script(
       'block-styles-script',
       plugins_url( 'build/index.js', __FILE__ ),
-      array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post', 'wp-i18n' ),
-      filemtime( plugin_dir_path( __FILE__ ) . './build/index.js' )
+      array_unique( array_merge( $asset['dependencies'], array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post', 'wp-i18n' ) ) ),
+      $asset['version']
     );
 
     wp_set_script_translations( 'block-styles-script', 'gallery-styles' );
