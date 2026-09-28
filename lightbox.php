@@ -54,7 +54,9 @@ function lightbox_needs_fix() {
  * Serves the patched lightbox in place of the core module.
  *
  * The image block enqueues the module by its id while rendering, so the id
- * stays and only what it points to changes.
+ * stays and only what it points to changes. Block themes render the template
+ * before wp_enqueue_scripts, so the module may already be queued - and
+ * deregistering dequeues it, so it is queued again.
  */
 function replace_lightbox_module() {
     if ( ! function_exists( 'wp_deregister_script_module' ) || ! lightbox_needs_fix() ) {
@@ -62,6 +64,7 @@ function replace_lightbox_module() {
     }
 
     $version = LIGHTBOX_MODULE_VERSION . '-' . filemtime( plugin_dir_path( __FILE__ ) . 'lightbox/view.js' );
+    $queued  = in_array( LIGHTBOX_MODULE, wp_script_modules()->get_queue(), true );
 
     wp_deregister_script_module( LIGHTBOX_MODULE );
     wp_register_script_module(
@@ -79,6 +82,9 @@ function replace_lightbox_module() {
             'in_footer'     => true,
         )
     );
+    if ( $queued ) {
+        wp_enqueue_script_module( LIGHTBOX_MODULE );
+    }
 
     wp_enqueue_style(
         'gallery-styles-lightbox',
