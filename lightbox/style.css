@@ -1,0 +1,50 @@
+/**
+ * Styles for the lightbox fix of
+ * https://github.com/WordPress/gutenberg/pull/79058, see view.js.
+ *
+ * The first image container of the overlay shows the thumbnail and takes the
+ * thumbnail's size. Core's zoom keyframes gain the clip to the thumbnail's
+ * crop; they are defined under names of their own, so the order in which this
+ * file and core's styles load does not matter. `body` outweighs core's rules.
+ */
+body .wp-lightbox-overlay .lightbox-image-container:first-of-type {
+    --wp--lightbox-image-width: var(--wp--lightbox-thumbnail-width);
+    --wp--lightbox-image-height: var(--wp--lightbox-thumbnail-height);
+}
+
+@media not (prefers-reduced-motion) {
+    body .wp-lightbox-overlay.zoom.active .lightbox-image-container {
+        animation: gallery-styles-lightbox-zoom-in 0.4s;
+    }
+
+    body .wp-lightbox-overlay.zoom.show-closing-animation:not(.active) .lightbox-image-container {
+        animation: gallery-styles-lightbox-zoom-out 0.4s;
+    }
+}
+
+@keyframes gallery-styles-lightbox-zoom-in {
+    0% {
+        clip-path: var(--wp--lightbox-initial-clip);
+        transform: translate(calc((-100vw + var(--wp--lightbox-scrollbar-width)) / 2 + var(--wp--lightbox-initial-left-position)), calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale));
+    }
+    100% {
+        clip-path: inset(0);
+        transform: translate(-50%, -50%) scale(1, 1);
+    }
+}
+
+@keyframes gallery-styles-lightbox-zoom-out {
+    0% {
+        visibility: visible;
+        clip-path: inset(0);
+        transform: translate(-50%, -50%) scale(1, 1);
+    }
+    99% {
+        visibility: visible;
+    }
+    100% {
+        visibility: hidden;
+        clip-path: var(--wp--lightbox-initial-clip);
+        transform: translate(calc((-100vw + var(--wp--lightbox-scrollbar-width)) / 2 + var(--wp--lightbox-initial-left-position)), calc(-50vh + var(--wp--lightbox-initial-top-position))) scale(var(--wp--lightbox-scale));
+    }
+}

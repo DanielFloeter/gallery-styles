@@ -16,6 +16,8 @@ namespace galleryStyleBlock;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+require_once __DIR__ . '/lightbox.php';
+
 /**
  * Write the color and accessing 
  * css variable "--line-color"
