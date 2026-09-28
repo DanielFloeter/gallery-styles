@@ -7,7 +7,8 @@ import {
 } from '@wordpress/compose';
 import {
     store as blockEditorStore,
-    InspectorControls
+    InspectorControls,
+    useSettings
 } from '@wordpress/block-editor';
 import {
     useSelect,
@@ -28,6 +29,180 @@ const {
  * Gutenberg link destination for the lightbox built into WordPress.
  */
 const LINK_DESTINATION_LIGHTBOX = 'lightbox';
+
+/**
+ * How long an uploaded image is watched after its upload has finished.
+ *
+ * The image block may store the result of an upload more than once, and every
+ * time it writes its own default link over the gallery's. See
+ * `useGalleryLinkForUploads()`.
+ */
+const UPLOAD_SETTLE_TIME = 2000;
+
+/**
+ * Reads the lightbox setting from theme.json. `useSettings()` is only
+ * available from WordPress 6.5 on - the version the `lightbox` attribute
+ * arrived with.
+ *
+ * @return {Object|undefined} The lightbox setting.
+ */
+function useLightboxSetting() {
+    return useSettings ? useSettings('blocks.core/image.lightbox')[0] : undefined;
+}
+
+/**
+ * The link attributes the gallery gives one of its images - a copy of
+ * `getHrefAndDestination()` in core/gallery.
+ *
+ * @param {Object} image           Inner image block.
+ * @param {Object} record          Media record of the image.
+ * @param {string} linkTo          Link destination of the gallery.
+ * @param {Object} lightboxSetting Lightbox setting from theme.json.
+ * @return {Object|null} Link attributes, or `null` while they cannot be told.
+ */
+function getGalleryLink(image, record, linkTo, lightboxSetting) {
+    const { attributes } = image;
+    const hasLightbox =
+        'lightbox' in
+        (wp?.blocks?.getBlockType?.('core/image')?.attributes ?? {});
+    const noLightbox =
+        hasLightbox && lightboxSetting?.enabled
+            ? { ...attributes.lightbox, enabled: false }
+            : undefined;
+
+    switch (linkTo) {
+        case 'file':
+        case 'media':
+            if (!record) {
+                return null;
+            }
+            return {
+                href: record.source_url,
+                linkDestination: 'media',
+                ...(hasLightbox && { lightbox: noLightbox }),
+            };
+        case 'post':
+        case 'attachment':
+            if (!record) {
+                return null;
+            }
+            return {
+                href: record.link,
+                linkDestination: 'attachment',
+                ...(hasLightbox && { lightbox: noLightbox }),
+            };
+        case LINK_DESTINATION_LIGHTBOX:
+            return {
+                href: undefined,
+                linkDestination: 'none',
+                ...(hasLightbox && {
+                    lightbox: !lightboxSetting?.enabled
+                        ? { ...attributes.lightbox, enabled: true }
+                        : undefined,
+                }),
+            };
+        case 'none':
+            return {
+                href: undefined,
+                linkDestination: 'none',
+                ...(hasLightbox && { lightbox: undefined }),
+            };
+    }
+
+    return null;
+}
+
+/**
+ * Whether the image already carries the given link attributes.
+ *
+ * @param {Object} image Inner image block.
+ * @param {Object} link  Link attributes.
+ * @return {boolean} True when nothing has to change.
+ */
+function hasLink(image, link) {
+    return Object.keys(link).every(
+        (key) =>
+            JSON.stringify(image.attributes[key]) === JSON.stringify(link[key])
+    );
+}
+
+/**
+ * Temporary workaround for https://github.com/WordPress/gutenberg/pull/83557
+ *
+ * Images uploaded straight into a gallery (drag and drop, "Upload") do not get
+ * the gallery's link setting: once the upload has finished, the image block
+ * writes the default link of `image_default_link_type` and core/gallery keeps
+ * that one instead of its own `linkTo`. With "Expand on click" the uploaded
+ * images therefore lose the lightbox.
+ *
+ * An uploaded image is recognised by its `blob` attribute. As soon as the
+ * upload is done, the gallery's link is written onto the image - and written
+ * again should the image block overwrite it while the upload settles. After
+ * that the image is left alone, so a link chosen for the single image sticks.
+ *
+ * Remove once the fix has reached every supported WordPress version.
+ *
+ * @param {Array}  innerBlockImages Inner image blocks.
+ * @param {Object} media            Media records keyed by attachment id.
+ * @param {string} linkTo           Link destination of the gallery.
+ */
+function useGalleryLinkForUploads(innerBlockImages, media, linkTo) {
+    const lightboxSetting = useLightboxSetting();
+    const {
+        updateBlockAttributes,
+        __unstableMarkNextChangeAsNotPersistent,
+    } = useDispatch(blockEditorStore);
+
+    // clientId => time the upload was seen finished (0 while uploading).
+    const uploads = useRef(new Map());
+
+    useEffect(() => {
+        const now = Date.now();
+        const images = innerBlockImages ?? [];
+
+        // Forget images that were removed from the gallery.
+        uploads.current.forEach((finished, clientId) => {
+            if (!images.some((image) => image.clientId === clientId)) {
+                uploads.current.delete(clientId);
+            }
+        });
+
+        images.forEach((image) => {
+            const { clientId, attributes } = image;
+            const uploading =
+                !!attributes.blob || !!attributes.url?.startsWith('blob:');
+
+            if (uploading) {
+                uploads.current.set(clientId, 0);
+                return;
+            }
+            if (!uploads.current.has(clientId) || !attributes.id) {
+                return;
+            }
+
+            let finished = uploads.current.get(clientId);
+            if (!finished) {
+                finished = now;
+                uploads.current.set(clientId, finished);
+            }
+            if (now - finished > UPLOAD_SETTLE_TIME) {
+                uploads.current.delete(clientId);
+                return;
+            }
+
+            const link = getGalleryLink(
+                image,
+                media[attributes.id],
+                linkTo,
+                lightboxSetting
+            );
+            if (link && !hasLink(image, link)) {
+                __unstableMarkNextChangeAsNotPersistent?.();
+                updateBlockAttributes(clientId, link);
+            }
+        });
+    }, [innerBlockImages, media, linkTo, lightboxSetting]);
+}
 
 /**
  * Whether the installed WordPress version offers a lightbox
@@ -221,6 +396,8 @@ const editInspectorControls = createHigherOrderComponent(
         const {
             replaceInnerBlocks,
         } = useDispatch(blockEditorStore);
+
+        useGalleryLinkForUploads(innerBlockImages, media, attributes.linkTo);
 
         /**
          * Issue #10: "Expand on click" as the default link destination.
