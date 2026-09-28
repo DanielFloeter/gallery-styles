@@ -4,7 +4,7 @@ Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              gallery block, sort images, exif, photo gallery, image hover
 Requires at least: 6.6
 Tested up to:      7.1
-Stable tag:        1.4.2
+Stable tag:        1.4.3
 Requires PHP:      7.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -70,6 +70,10 @@ No. The default is only written to galleries you insert after installing this pl
 3. Option sort by WP modified
 
 == Changelog ==
+
+= 1.4.3 - September 28th 2026 =
+* Bugfix Link of uploaded images ([Gutenberg #83557](https://github.com/WordPress/gutenberg/pull/83557))
+* Bugfix Lightbox image ratio ([Gutenberg #79058](https://github.com/WordPress/gutenberg/pull/79058))
 
 = 1.4.2 - September 23rd 2026 =
 * New styles Hero and Reverse
