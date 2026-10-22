@@ -13,6 +13,22 @@ const icon = {
     foreground: '#62beda',
 }
 
+// Search keywords for the block inserter (mirrors "keywords" in package.json)
+const keywords = [
+    __( 'gallery', 'gallery-styles' ),
+    __( 'gallery-block', 'gallery-styles' ),
+    __( 'image-gallery', 'gallery-styles' ),
+    __( 'photo-gallery', 'gallery-styles' ),
+    __( 'sort-images', 'gallery-styles' ),
+    __( 'sort-gallery', 'gallery-styles' ),
+    __( 'exif', 'gallery-styles' ),
+    __( 'hover-effects', 'gallery-styles' ),
+    __( 'duotone', 'gallery-styles' ),
+    __( 'image-filters', 'gallery-styles' ),
+    __( 'blend-mode', 'gallery-styles' ),
+    __( 'lightbox', 'gallery-styles' ),
+];
+
 // Add a color attribute
 function addAttributes(settings, name) { 
     if (typeof settings.attributes !== 'undefined') {
@@ -66,7 +82,13 @@ function addAttributes(settings, name) {
     }
     if (name == 'core/gallery') {
         settings = Object.assign(settings, {
-            icon
+            icon,
+            keywords: [
+                ...new Set([
+                    ...(settings.keywords || []),
+                    ...keywords,
+                ]),
+            ],
         });
     }
     return settings;
