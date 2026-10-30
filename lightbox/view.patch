@@ -1,0 +1,98 @@
+The fix of https://github.com/WordPress/gutenberg/pull/79058 for
+callbacks.setOverlayStyles() of the core/image lightbox, applied by
+lightbox.php to the module WordPress ships.
+
+Each hunk replaces the text between "@@ core" and "@@ fix" with the text
+between "@@ fix" and "@@ end". The patch only applies when every core text
+is found exactly once; lines outside the hunks are comments.
+
+The size comes from the original image, not from the thumbnail's crop.
+@@ core
+        let imgRatio = imgMaxWidth / imgMaxHeight;
+        let containerMaxWidth = imgMaxWidth;
+        let containerMaxHeight = imgMaxHeight;
+        let containerWidth = imgMaxWidth;
+        let containerHeight = imgMaxHeight;
+        if (naturalRatio.toFixed(2) !== imgRatio.toFixed(2)) {
+          if (naturalRatio > imgRatio) {
+            const reducedHeight = imgMaxWidth / naturalRatio;
+            if (imgMaxHeight - reducedHeight > imgMaxWidth) {
+              imgMaxHeight = reducedHeight;
+              imgMaxWidth = reducedHeight * naturalRatio;
+            } else {
+              imgMaxHeight = imgMaxWidth / naturalRatio;
+            }
+          } else {
+            const reducedWidth = imgMaxHeight * naturalRatio;
+            if (imgMaxWidth - reducedWidth > imgMaxHeight) {
+              imgMaxWidth = reducedWidth;
+              imgMaxHeight = reducedWidth / naturalRatio;
+            } else {
+              imgMaxWidth = imgMaxHeight * naturalRatio;
+            }
+          }
+          containerWidth = imgMaxWidth;
+          containerHeight = imgMaxHeight;
+          imgRatio = imgMaxWidth / imgMaxHeight;
+          if (originalRatio > imgRatio) {
+            containerMaxWidth = imgMaxWidth;
+            containerMaxHeight = containerMaxWidth / originalRatio;
+          } else {
+            containerMaxHeight = imgMaxHeight;
+            containerMaxWidth = containerMaxHeight * originalRatio;
+          }
+        }
+@@ fix
+        const fullSizeRatio = imgMaxWidth / imgMaxHeight;
+        let containerWidth = imgMaxWidth;
+        let containerHeight = imgMaxHeight;
+@@ end
+
+The overlay takes the original image's proportions; the zoom starts from the
+thumbnail's crop of it.
+@@ core
+        if (originalRatio > targetContainerRatio) {
+          containerWidth = targetMaxWidth;
+          containerHeight = containerWidth / originalRatio;
+        } else {
+          containerHeight = targetMaxHeight;
+          containerWidth = containerHeight * originalRatio;
+        }
+        const containerScale = originalWidth / containerWidth;
+        const lightboxImgWidth = imgMaxWidth * (containerWidth / containerMaxWidth);
+        const lightboxImgHeight = imgMaxHeight * (containerHeight / containerMaxHeight);
+@@ fix
+        if (fullSizeRatio > targetContainerRatio) {
+          containerWidth = targetMaxWidth;
+          containerHeight = containerWidth / fullSizeRatio;
+        } else {
+          containerHeight = targetMaxHeight;
+          containerWidth = containerHeight * fullSizeRatio;
+        }
+        const hasCroppedSource = naturalRatio.toFixed(2) !== fullSizeRatio.toFixed(2);
+        const sourceRatio = hasCroppedSource ? naturalRatio : fullSizeRatio;
+        const containerScale = Math.max(
+          originalWidth / containerWidth,
+          originalHeight / containerHeight,
+          originalWidth / (containerHeight * sourceRatio),
+          originalHeight * sourceRatio / containerWidth
+        );
+        const thumbnailWidth = originalWidth / containerScale;
+        const thumbnailHeight = originalHeight / containerScale;
+        const cropX = (containerWidth - thumbnailWidth) / 2;
+        const cropY = (containerHeight - thumbnailHeight) / 2;
+        screenPosX -= cropX * containerScale;
+        screenPosY -= cropY * containerScale;
+@@ end
+
+The image keeps the overlay's size; the crop goes to the styles.
+@@ core
+					--wp--lightbox-image-width: ${lightboxImgWidth}px;
+					--wp--lightbox-image-height: ${lightboxImgHeight}px;
+@@ fix
+					--wp--lightbox-image-width: ${containerWidth}px;
+					--wp--lightbox-image-height: ${containerHeight}px;
+					--wp--lightbox-initial-clip: inset(${cropY}px ${cropX}px);
+					--wp--lightbox-thumbnail-width: ${hasCroppedSource ? thumbnailWidth : containerWidth}px;
+					--wp--lightbox-thumbnail-height: ${hasCroppedSource ? thumbnailHeight : containerHeight}px;
+@@ end
