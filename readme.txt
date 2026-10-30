@@ -4,7 +4,7 @@ Donate link:       https://www.paypal.com/donate/?hosted_button_id=RSR28JGA4M7JC
 Tags:              gallery block, sort images, exif, photo gallery, image hover
 Requires at least: 6.6
 Tested up to:      7.1
-Stable tag:        1.4.4
+Stable tag:        1.4.5
 Requires PHP:      7.2
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -70,6 +70,9 @@ No. The default is only written to galleries you insert after installing this pl
 3. Option sort by WP modified
 
 == Changelog ==
+
+= 1.4.5 - October 30th 2026 =
+* Bugfix Lightbox image ratio for WordPress +7.1.4
 
 = 1.4.4 - September 28th 2026 =
 * Bugfix Lightbox did not open with block themes
